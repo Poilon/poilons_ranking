@@ -9,7 +9,7 @@ class TournamentsController < ApplicationController
         challonge_tournament.participants.each do |challonge_participant|
           participant = Participant.find_by_name(challonge_participant.name)
           participant = Participant.create(name: challonge_participant.name) unless participant
-          Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank)
+          result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank)
         end
       end
     end
