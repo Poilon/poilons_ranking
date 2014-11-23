@@ -5,7 +5,7 @@ class TournamentsController < ApplicationController
     challonge_tournaments.each do |challonge_tournament|
       tournament = Tournament.find_by_name(challonge_tournament.name)
       unless tournament
-        tournament = Tournament.create(name: challonge_tournament.name)      
+        tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100)      
         challonge_tournament.participants.each do |challonge_participant|
           participant = Participant.find_by_name(challonge_participant.name)
           participant = Participant.create(name: challonge_participant.name) unless participant
