@@ -34,6 +34,11 @@ gem 'better_errors', group: :development
 gem 'challonge-api'
 
 gem 'unicorn'
+
+gem 'pry'
+gem 'i18n'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

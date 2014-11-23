@@ -7,12 +7,14 @@ class TournamentsController < ApplicationController
 
   def create
     Challonge::API.username = 'LeFrenchMelee'
-    Challonge::API.key = '68hnQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt'
+    #68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt
+    Challonge::API.key = '68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt'
 
     challonge_tournaments = Challonge::Tournament.find(:all, params: { status: 'complete' } )
     challonge_tournaments.each do |challonge_tournament|
       tournament = Tournament.find_by_name(challonge_tournament.name)
       unless tournament
+        binding.pry
         tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: Game.find_by_name('Super Smash Bros. Melee').id)      
         challonge_tournament.participants.each do |challonge_participant|
           participant = Participant.find_by_name(challonge_participant.name)
@@ -21,11 +23,12 @@ class TournamentsController < ApplicationController
         end
       end
     end
-    redirect_to :home
+    redirect_to '/'
   end
 
   def access_denied
     flash[:error] = 'Bad key or username'
+    @tournament = Tournament.new
     render :new
   end
 end

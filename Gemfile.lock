@@ -32,10 +32,14 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (3.1.2.20141016)
+      execjs
     better_errors (2.0.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
+    bootstrap-sass (3.2.0.2)
+      sass (~> 3.2)
     builder (3.2.2)
     challonge-api (0.2.0)
       activeresource
@@ -61,10 +65,15 @@ GEM
     kgio (2.9.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.4.3)
     minitest (5.4.3)
     multi_json (1.10.1)
     pg (0.17.1)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -109,6 +118,7 @@ GEM
     slim (2.1.0)
       temple (~> 0.6.9)
       tilt (>= 1.3.3, < 2.1)
+    slop (3.4.7)
     spring (1.2.0)
     sprockets (2.11.3)
       hike (~> 1.2)
@@ -139,12 +149,16 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autoprefixer-rails
   better_errors
+  bootstrap-sass
   challonge-api
   coffee-rails (~> 4.0.0)
+  i18n
   jbuilder (~> 2.0)
   jquery-rails
   pg
+  pry
   rails (= 4.1.8)
   rails_12factor
   sass-rails (~> 4.0.3)

@@ -1,4 +1,4 @@
 class Tournament < ActiveRecord::Base
-  has_one :game
+  belongs_to :game
   has_many :results
 end

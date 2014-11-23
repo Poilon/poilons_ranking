@@ -1,4 +1,4 @@
 class Result < ActiveRecord::Base
-  has_one :tournament
-  has_one :participant
+  belongs_to :tournament
+  belongs_to :participant
 end
