@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module PoilonsRanking
   class Application < Rails::Application
+    Challonge::API.username = 'LeFrenchMelee'
+    Challonge::API.key = '68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
