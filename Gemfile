@@ -28,9 +28,12 @@ gem 'spring',        group: :development
 
 gem 'slim'
 gem 'rails_12factor', group: :production
+gem 'simple_form'
+gem 'better_errors', group: :development
 
 gem 'challonge-api'
 
+gem 'unicorn'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
