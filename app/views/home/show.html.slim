@@ -1,3 +1,7 @@
 h2= "Welcome to the Poilon's Ranking"
 
-= @ranking
+table
+  - @ranking.each do |rank|
+    tr
+      td= rank.first
+      td= rank.last

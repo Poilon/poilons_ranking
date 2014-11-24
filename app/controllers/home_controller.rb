@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     end
     index = 1
     final_results = {}
-    @ranking = players_list.sort_by{|k, v| v}.map(&:first).reverse
+    @ranking = players_list.sort_by{|k, v| v}.reverse
     #players_list.sort_by{|k, v|v}.map{|k, v|final_results[index] = v.map(&:first) + [v.first.last]; index += 1}
     #final_results.sort_by{|k, v| v.last}.reverse
   end
