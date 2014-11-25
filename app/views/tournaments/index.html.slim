@@ -1,0 +1,4 @@
+table
+  - @tournaments.each do |tournament|
+    = link_to tournament.name, game_tournament_path(@game.id, tournament.id)
+    br

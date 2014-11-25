@@ -1,6 +1,11 @@
 class TournamentsController < ApplicationController
   rescue_from ActiveResource::UnauthorizedAccess, with: :access_denied
 
+  def index
+    @game = Game.find(params[:game_id])
+    @tournaments = @game.tournaments
+  end
+
   def new
     @tournament = Tournament.new
   end

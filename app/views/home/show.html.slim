@@ -1,7 +1,8 @@
 h2= "Welcome to the Poilon's Ranking"
 
 table
-  - @ranking.each do |rank|
-    tr
-      td= rank.first
-      td= rank.last
+  - @games.each do |game|
+    = link_to game.name, game_tournaments_path(game.id)
+    = ' - '
+    = link_to 'ranking', ranking_game_path(game.id)
+    br
