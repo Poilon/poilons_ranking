@@ -1,0 +1,3 @@
+@mixin media-query-palm-and-down(){
+    @media only screen and (max-width:$lap-end) { @content; }
+}

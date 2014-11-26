@@ -1,9 +1,9 @@
-h2= "Welcome to the Poilon's Ranking"
+.soft
+  .max-readable-width
+    - @games.each do |game|
+      .table--line
+        = link_to game.name, game_tournaments_path(game.id)
+        = ' - '
+        = link_to 'ranking', [game, :participants]
 
-table
-  - @games.each do |game|
-    = link_to game.name, game_tournaments_path(game.id)
-    = ' - '
-    = link_to 'ranking', ranking_game_path(game.id)
-    br
-br
+  

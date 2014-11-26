@@ -1,0 +1,93 @@
+input, textarea {
+  margin-left  : 0;
+  cursor       : text;
+  border       : none;
+  padding      : 0.5em;
+  box-shadow   : none;
+  width: 100%;
+  @extend .push--bottom;
+}
+
+.new_user {
+  text-align: center;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  resize: none;
+  height: 200px;
+  padding-left: 10px;
+}
+
+.request-form {
+  textarea, label, select {
+    border: 0;
+    width: 100%;
+    margin: 0;
+  }
+
+  label {
+    text-align: left;
+  }
+
+  .black-label {
+    display: block;
+    padding-left: 25px;
+    font-size: 18px;
+    width: 100%;
+    background-color: $headerColor;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .error {
+    text-align: center;
+    padding: 10px 0;
+    background-color: red;
+  }
+
+}
+
+.btn {
+  margin-bottom   : 0;
+  background-color: $green;
+  color           : $body_white;
+  border          : 1px solid darken($green, 5%);
+  @media only screen and (min-width: 1024px) {
+    padding         : 0.5em 1.5em;
+  }
+  @media only screen and (max-width: 1024px) {
+    padding         : 0.2em 0.5em;
+  }
+  &:hover {
+    background-color: lighten($green, 5%);;
+    cursor: pointer;
+  }
+}
+
+.btn--subscribe {
+  background-color: $flashy_green;
+  &:hover {
+    background-color: lighten($flashy_green, 2%);;
+  }
+}
+
+.btn--small {
+  padding: 0.2em 0.2em;
+  line-height: 20px;
+}
+
+input[type=submit] {
+  @extend .btn
+}
+
+.checkbox {
+  input, label {
+    margin-bottom: 0;
+    display      : inline-block;
+  }
+  input {
+    width: 10px;
+  }
+}

@@ -1,0 +1,8 @@
+.soft
+  .max-readable-width
+    .grid
+      - @participants.each do |rank|
+        .grid__item.one-half.text--right
+          = rank.first
+        .grid__item.one-half
+          = rank.last

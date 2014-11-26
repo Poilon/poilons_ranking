@@ -1,0 +1,32 @@
+/* Widths */
+
+$footer-height                        : 30px;
+/* Colors */
+
+$headerColor                          : #333;
+$background_card_blue                 : #38a0bb;
+$link_color                           : #38a0bb;
+$dark_link_color                      : darken(#38a0bb, 30%);
+$link_hover                           : lighten($link_color, 4%);
+$body_blue                            : #215F6E;
+$body_white                           : #f9f4ef;
+$input_background                     : #cccccc;
+$header_selected                      : #a3e7f8;
+/* Calendar */
+$calendar_day_default_background      : #346E7A;
+$calendar_day_font_color              : #28A3B3;
+$calendar_booked_day_background       : #ee7c7c;
+$calendar_past_day_background         : #9DBAC2;
+$calendar_selected_day_background     : #3399CC;
+$calendar_selected_day_color          : #1D6070;
+
+$green                                : #24CB61;
+$flashy_green                             : #05D713;
+
+/* Alerts */
+$alert_success                        : $green;
+$alert_eror                           : #d83a39;
+
+
+/* Borders */
+$border_blue                          : lighten($body_blue, 4%);

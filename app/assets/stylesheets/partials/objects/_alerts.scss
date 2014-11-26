@@ -1,0 +1,25 @@
+.notice, .alert {
+  text-align: center;
+  padding: 10px;
+}
+
+.notice {
+  background-color: $alert_success;
+  color           : white;
+}
+
+.alert, .error, .errors {
+  background-color: $alert_eror !important;
+  color: white;
+}
+
+span.error, .errors {
+  padding-left: 7px;
+}
+
+span.error {
+  display: block;
+  margin-top: -22px;
+  margin-bottom: 22px ;
+  background-color: $alert_eror;
+}

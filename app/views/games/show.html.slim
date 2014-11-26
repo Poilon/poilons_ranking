@@ -1,3 +1,3 @@
 = link_to 'tournaments', game_tournaments_path(@game.id)
 br
-= link_to 'ranking', ranking_game_path(@game.id)
+= link_to 'ranking', [@game, :participants]

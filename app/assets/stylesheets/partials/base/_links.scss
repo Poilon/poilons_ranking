@@ -1,0 +1,22 @@
+a {
+  color: $link_color;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.catchy {
+  border: 1px solid transparent;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: $link_color;
+  border-color: $link_color;
+  padding: 10px 16px;
+  border-radius: 6px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
+}

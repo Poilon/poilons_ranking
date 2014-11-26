@@ -1,0 +1,47 @@
+@import 'defaults';
+@import 'consts';
+
+/* Libs */
+@import 'partials/libs/inuit';
+@import 'font-awesome';
+@import 'partials/libs/csswizardry-grids';
+@import 'partials/libs/card';
+
+/* Base */
+@import 'partials/base/headings';
+@import 'partials/base/footer';
+@import 'partials/base/main';
+@import 'partials/base/forms';
+@import 'partials/base/links';
+@import 'partials/base/tables';
+@import 'partials/base/container';
+
+/* Generic */
+@import 'partials/generic/helpers';
+@import 'partials/generic/mixins';
+
+/* Objects */
+@import 'partials/objects/landing';
+@import 'partials/objects/user';
+@import 'partials/objects/header';
+@import 'partials/objects/custom_datepicker';
+@import 'partials/objects/alerts';
+@import 'partials/objects/avatar';
+@import 'partials/objects/profile_card';
+@import 'partials/objects/calendar';
+@import 'partials/objects/boxes';
+@import 'partials/objects/explanation';
+@import 'partials/objects/responsivevideo';
+
+
+.tutorial{
+  img{
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.ical_icon {
+  display: block;
+  margin: 10px auto;
+}

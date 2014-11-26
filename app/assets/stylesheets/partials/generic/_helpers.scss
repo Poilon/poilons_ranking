@@ -1,0 +1,17 @@
+.same_as_background {
+  background-color: $body_white;
+}
+
+/* Color helpers */
+.white { color: white; }
+.black { color: black; }
+
+.italic   { font-style: italic; }
+.v-middle { vertical-align: middle; }
+.v-top    { vertical-align: top; }
+
+.clear     { clear: both; }
+
+.bordered--top { border-top: 1px solid $border_blue};
+
+.hidden { display: none;}

@@ -1,0 +1,101 @@
+.landing {
+  .pitch-container {
+    background-image: url(asset-path('homepage/landing-image-2.jpg'));
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    text-align: center;
+
+    color: $body_white;
+
+    ul {
+      margin: 0;
+      padding-top: 50px;
+
+      li {
+        margin: 0 30px;
+        display: inline-block;
+
+        a {
+          border: 1px solid transparent;
+          font-size: 20px;
+          color: #ffffff;
+          background-color: $link_color;
+          border-color: $link_color;
+          padding: 10px 16px;
+          border-radius: 6px;
+        }
+      }
+    }
+
+    .pitch {
+      padding-top: 150px;
+
+      h1 {
+        font-size: 50px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+.hp {
+  font-family: "Open Sans";
+  letter-spacing: 0.01rem;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
+//  p {
+//    text-indent: 20px;
+//  }
+  h2, h3 {
+    margin-bottom: 20px;
+  }
+//  h2, h3 {
+//    text-align: center;
+//  }
+}
+
+.homepage-image {
+  background-image: url(https://res.cloudinary.com/milesrock/image/upload/b_rgb:000,e_tilt_shift/v1402314978/cathedrale-horloge_l9ybrq.jpg);
+}
+
+.cover-bg {
+  background-size: cover;
+  @media only screen and (min-width: 1024px) {
+    background-position-y: 75%;
+  }
+  @media only screen and (max-width: 1024px) {
+    background-position-x: 50%;
+  }
+}
+
+.cover-soft {
+  padding-top: 500px;
+  padding-bottom: 24px;
+}
+
+.title--homepage {
+  @media only screen and (min-width: 1024px) {
+    font-size: 50px !important;
+  }
+  @media only screen and (max-width: 1024px) {
+    font-size: 35px !important;
+  }
+  color: white;
+}
+
+.subtitle--homepage {
+  @media only screen and (min-width: 1024px) {
+    font-size: 30px !important;
+  }
+  @media only screen and (max-width: 1024px) {
+    font-size: 17px !important;
+  }
+  color: white;
+}

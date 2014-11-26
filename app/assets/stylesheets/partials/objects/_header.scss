@@ -1,0 +1,74 @@
+.header-site {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 45px;
+  background-color: $headerColor;
+  color: white;
+
+  .header-title {
+    font-weight: 300;
+    line-height: 45px;
+    float: left;
+    font-size: 25px;
+    display: block;
+    margin-left: 10px;
+  }
+
+  a {
+    color: $link_color;
+    &:hover {
+      color: $link_hover;
+      text-decoration: none;
+    }
+
+    &.selected {
+      color: $header_selected;
+    }
+  }
+
+  nav{
+    font-size: 14px;
+    float    : right;
+    padding-right: 30px;
+
+    li {
+      margin-left: 20px;
+      display: inline-block;
+      line-height: 45px;
+    }
+  }
+}
+
+@include media-query-palm-and-down() {
+
+// }
+// @include media-query(lap) {
+  .header-site nav {
+    background-color: $body_blue;
+    border          : none;
+    width           : 100%;
+    padding         : 0;
+    position        : absolute;
+    top             : 45px;
+    ul {
+      margin: 0;
+    }
+    li {
+      display    : block;
+      margin-left: 0;
+      text-align : center;
+      &:hover {
+        background-color: lighten($body_blue, 5%);
+        a { color: white; }
+      }
+      a {
+        color      : white;
+        display    : block;
+      }
+    }
+  }
+}
+

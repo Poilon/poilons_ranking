@@ -1,0 +1,189 @@
+.ui-datepicker {
+  width: 100% !important;
+  min-height: 250px;
+  color: $body_white;
+
+  a {
+    text-decoration: none;
+    color          : white;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.ui-state-selected {
+      color: $calendar_selected_day_color;
+    }
+  }
+
+  .ui-datepicker-group {
+    width  : 50%;
+    display: inline-block;
+    padding: 1em;
+    @include media-query(palm) {
+      width: 100%;
+    }
+
+    &.ui-datepicker-group-first {
+      .ui-datepicker-header .ui-datepicker-title {
+        // background-color: $calendar_day_default_background;
+      }
+    }
+
+    .ui-datepicker-header {
+      width  : 100%;
+      margin : 10px auto;
+      color  : #e0e0e0;
+      height : 50px;
+      border : none;
+
+      .ui-datepicker-title {
+        background-color: transparent;
+        text-align: center;
+        height: 50px;
+
+        .ui-datepicker-month {
+          display: inline-block;
+          text-transform: uppercase;
+          font-size: 20px;
+          line-height: 30px;
+          margin-bottom: 10px;
+        }
+        .ui-datepicker-year {
+          line-height: 12px;
+          font-size: 12px;
+          display: block;
+        }
+      }
+
+     .ui-datepicker-prev, .ui-datepicker-next {
+        display      : inline-block;
+        width        : 30px;
+        height       : 50px;
+        text-align   : center;
+        cursor       : pointer;
+        overflow     : hidden;
+        text-indent  : 100%;
+        white-space  : nowrap;
+        // background-color: $body_white;
+
+        &.ui-state-disabled {
+          cursor: default;
+          background-color: transparent;
+        }
+
+      }
+
+      .ui-datepicker-prev {
+        float: left;
+        background-image: url('arrow-right.png');
+        background-size: 30px 50px;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      .ui-datepicker-next {
+        float           : right;
+        background-image: url('arrow-right.png');
+        background-size : 30px 50px;
+      }
+    }
+
+    table {
+      color          : $body_blue;
+      border-spacing : 6px;
+      table-layout   : fixed;
+      text-align     : center;
+      margin         : auto;
+      border-collapse: separate;
+
+      td, th {
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+      }
+      th, td {
+        text-align: center;
+      }
+      th {
+        color      : $body_white;
+        font-weight: 300;
+      }
+      td {
+        height: 30px;
+        color           : $body_blue; //$calendar_day_font_color;
+        background-color: $calendar_day_default_background;
+        padding         : 0;
+
+        .ui-state-active {
+          background-color: $body_white;
+          color           : $body_blue;
+          font-weight     : bold;
+
+          &:hover {
+            background-color: darken($body_white, 5%);
+          }
+
+          &.ui-state-selected {
+            background-color: $calendar_selected_day_background;
+            color           : white;
+          }
+        }
+
+        &.ui-state-reserved {
+          background-color: $calendar_booked_day_background;
+          color           : white;
+        }
+
+        &.ui-datepicker-other-month {
+          opacity: 0;
+        }
+
+        a {
+          cursor     : default;
+          display    : inline-block;
+          width      : 100%;
+          height     : 30px;
+          line-height: 30px;
+
+          &.ui-state-active {
+            cursor: pointer;
+          }
+        }
+
+        &.ui-state-disabled:not(.ui-state-reserved) {
+          // background-color: $calendar_past_day_background;
+          background-color: $calendar_day_default_background;
+        }
+      }
+    }
+  }
+
+  .ui-datepicker-row-break {
+    clear: both;
+  }
+}
+
+// Special case on the user's private tracks page
+#addAnAvailability {
+  table a {
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($calendar_day_default_background, 5%);
+    }
+
+    &.ui-state-active:hover {
+      background-color: $calendar_past_day_background;
+      background-color: darken($body_white, 5%);
+    }
+  }
+}
+
+// Strange div appearing in some pages...
+#ui-datepicker-div {
+  display:none;
+}

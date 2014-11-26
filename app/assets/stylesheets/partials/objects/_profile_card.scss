@@ -1,0 +1,10 @@
+.profile-skills {
+  p {
+    margin-bottom: 0;
+  }
+}
+.profile-description {
+  @include media-query(palm) {
+    @extend .bordered--top;
+  }
+}

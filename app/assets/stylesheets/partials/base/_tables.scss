@@ -1,0 +1,36 @@
+.table{
+  display: table;
+}
+
+.table-cell{
+  display: table-cell;
+}
+
+table.simple-style{
+  width           : 100%;
+  margin-bottom   : 0;
+  border-collapse : collapse;
+
+  th{
+    font-size: 1.5em;
+    padding: 10px;
+  }
+
+  td{
+    padding: 10px;
+  }
+
+  tr.even{
+    background-color: #474847;
+  }
+
+  td.label{
+    width: 200px;
+  }
+  td.actions{
+    width: 200px;
+  }
+  td.label{
+    width: 200px;
+  }
+}

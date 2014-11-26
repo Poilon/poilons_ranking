@@ -1,0 +1,9 @@
+.calendar-legend {
+  width         : 20px;
+  height        : 20px;
+  display       : inline-block;
+}
+.calendar-unavailable { background-color: $calendar_day_default_background; }
+.calendar-booked      { background-color: $calendar_booked_day_background; }
+.calendar-free        { background-color: $body-white; }
+.calendar-selected    { background-color: $calendar_selected_day_background; }
