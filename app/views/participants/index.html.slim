@@ -1,3 +1,4 @@
+h2.soft--top.text--center= @game.name
 .soft
   .max-readable-width
     .grid
@@ -5,4 +6,4 @@
         .grid__item.one-half.text--right
           = rank.first
         .grid__item.one-half
-          = rank.last
+          = rank.last.round(2)

@@ -8,5 +8,6 @@ html
     = csrf_meta_tags
 
 body
-  h2.text--center.soft.hard--bottom= link_to 'Welcome to the Poilon\'s Ranking', root_path
+  .header-site
+    h1.text--center.soft= link_to 'Poilon\'s Ranking', root_path
   = yield
