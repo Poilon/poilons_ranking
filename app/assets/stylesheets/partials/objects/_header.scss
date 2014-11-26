@@ -1,3 +1,6 @@
+.selected {
+  color: $header_selected;
+}
 .header-site {
   background-color: $headerColor;
   color: white;
@@ -16,10 +19,6 @@
     &:hover {
       color: $link_hover;
       text-decoration: none;
-    }
-
-    &.selected {
-      color: $header_selected;
     }
   }
 

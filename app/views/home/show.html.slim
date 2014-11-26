@@ -2,8 +2,6 @@
   .max-readable-width
     - @games.each do |game|
       .table--line
-        = link_to game.name, game_tournaments_path(game.id)
-        = ' - '
-        = link_to 'ranking', [game, :participants]
+        = link_to game.name, [game, :participants]
 
   

@@ -1,0 +1,6 @@
+h2.soft.text--center
+  = @game.name
+
+.text--center
+  => link_to 'ranking', [@game, :participants], class: selected?('participants', 'index')
+  => link_to 'tournaments', [@game, :tournaments], class: selected?('tournaments', 'index')
