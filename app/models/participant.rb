@@ -3,6 +3,6 @@ class Participant < ActiveRecord::Base
   belongs_to :game
 
   def compute_score
-    results.compute
+    self.update_attribute(:score, results.compute)
   end
 end

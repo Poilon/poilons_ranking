@@ -3,8 +3,14 @@
 .soft
   .max-readable-width
     .grid
-      - @participants.each do |participant|
-        .grid__item.one-half.text--right
-          = participant.name
-        .grid__item.one-half
-          = participant.score.round(2)
+      - count = 0
+      - @participants.each_with_index do |score, index|
+        - score.last.each_with_index do |participant, i|
+          .grid__item.one-third.text--right
+            = count + 1
+          .grid__item.one-third.text--right
+            = participant.name
+            br
+          .grid__item.one-third
+            = score.first.round(2)
+        - count += score.last.count

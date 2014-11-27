@@ -15,12 +15,11 @@ class TournamentsController < ApplicationController
     #68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt
     Challonge::API.key = '68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt'
 
-    challonge_tournaments = Challonge::Tournament.find(:all, params: { status: 'complete' } )
+    challonge_tournaments = Challonge::Tournament.find(:all, params: { status: 'complete' } );
     challonge_tournaments.each do |challonge_tournament|
       tournament = Tournament.find_by_name(challonge_tournament.name)
       unless tournament
-        binding.pry
-        tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: Game.find_by_name('Super Smash Bros. Melee').id)      
+        tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: Game.find_by_name('Super Smash Bros. Melee').id)
         challonge_tournament.participants.each do |challonge_participant|
           participant = Participant.find_by_name(challonge_participant.name)
           participant = Participant.create(name: challonge_participant.name) unless participant

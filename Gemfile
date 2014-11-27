@@ -37,6 +37,7 @@ gem 'slim'
 gem 'rails_12factor', group: :production
 gem 'simple_form'
 gem 'better_errors', group: :development
+gem 'binding_of_caller', group: :development
 
 gem 'challonge-api'
 
