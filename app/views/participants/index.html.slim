@@ -3,8 +3,8 @@
 .soft
   .max-readable-width
     .grid
-      - @participants.each do |rank|
+      - @participants.each do |participant|
         .grid__item.one-half.text--right
-          = rank.first
+          = participant.name
         .grid__item.one-half
-          = rank.last.round(2)
+          = participant.score.round(2)
