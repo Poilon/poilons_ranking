@@ -1,4 +1,4 @@
 = render 'games/menu'
 .max-readable-width.soft
   - @tournaments.each do |tournament|
-    div= tournament.name
+    div= link_to tournament.name, [:edit, @game, tournament]

@@ -2,6 +2,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    redirect_to [@game, :tournaments]
   end
 
   def new

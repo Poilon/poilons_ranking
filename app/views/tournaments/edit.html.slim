@@ -1,0 +1,14 @@
+= render 'tournaments/menu'
+.soft
+  .text--center
+    = link_to 'back', [@game, :tournaments]
+  .max-readable-width.soft
+    - @tournament.results.order(:rank).each do |result|
+      .grid__item.one-half.text--right
+        = result.rank
+      .grid__item.one-half.text--left
+        = result.participant.name
+      
+    = simple_form_for [@game, @tournament] do |f|
+      = f.input :multiplier
+      = f.button :submit

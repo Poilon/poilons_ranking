@@ -3,7 +3,7 @@ class TournamentsController < ApplicationController
 
   def index
     @game = Game.find(params[:game_id])
-    @tournaments = @game.tournaments
+    @tournaments = @game.tournaments.order(:created_at)
   end
 
   def new
@@ -28,6 +28,22 @@ class TournamentsController < ApplicationController
       end
     end
     redirect_to '/'
+  end
+
+  def edit
+    @tournament = Tournament.find(params[:id])
+    @game = Game.find(params[:game_id])
+  end
+
+  def update
+    @game = Game.find(params[:game_id])
+    @tournament = Tournament.find(params[:id])
+    @tournament.multiplier = params[:tournament][:multiplier]
+    if @tournament.save
+      redirect_to [@game, @tournaments]
+    else
+      render :edit
+    end
   end
 
   def access_denied

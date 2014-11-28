@@ -67,9 +67,9 @@ textarea {
 }
 
 .btn--subscribe {
-  background-color: $flashy_green;
+  background-color: $green;
   &:hover {
-    background-color: lighten($flashy_green, 2%);;
+    background-color: lighten($green, 2%);;
   }
 }
 
