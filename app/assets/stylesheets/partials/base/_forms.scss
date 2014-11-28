@@ -51,9 +51,9 @@ textarea {
 
 .btn {
   margin-bottom   : 0;
-  background-color: $green;
+  background-color: $calendar_day_font_color;
   color           : $body_white;
-  border          : 1px solid darken($green, 5%);
+  border          : 1px solid darken($calendar_day_font_color, 5%);
   @media only screen and (min-width: 1024px) {
     padding         : 0.5em 1.5em;
   }
@@ -67,9 +67,9 @@ textarea {
 }
 
 .btn--subscribe {
-  background-color: $green;
+  background-color: $calendar_day_font_color;
   &:hover {
-    background-color: lighten($green, 2%);;
+    background-color: lighten($calendar_day_font_color, 2%);;
   }
 }
 

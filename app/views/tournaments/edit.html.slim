@@ -1,14 +1,15 @@
 = render 'tournaments/menu'
 .soft
-  .text--center
-    = link_to 'back', [@game, :tournaments]
-  .max-readable-width.soft
-    - @tournament.results.order(:rank).each do |result|
-      .grid__item.one-half.text--right
-        = result.rank
-      .grid__item.one-half.text--left
-        = result.participant.name
-      
-    = simple_form_for [@game, @tournament] do |f|
-      = f.input :multiplier
-      = f.button :submit
+  .max-readable-width
+    .text--center
+      = link_to 'back', [@game, :tournaments]
+    .grid__item.one-half.text--left
+      = simple_form_for [@game, @tournament] do |f|
+        = f.input :multiplier, label: "Tournament size", collection: [["City/Town", 10], ["Area", 100], ["Country/State", 1000], ["Continent", 10_000], ["World", 100_000]], include_blank: false, input_html: { class: 'one_half' }
+        = f.button :submit, input_html: { class: 'text--center'}
+    .grid__item.one-half
+      - @tournament.results.order(:rank).each do |result|
+        .grid__item.one-half.text--right
+          = result.rank
+        .grid__item.one-half.text--left
+          = result.participant.name

@@ -1,16 +1,16 @@
 = render 'games/menu'
 
+h4.text--center.soft--top
+  = link_to 'Reload', [:compute, @game]
+
 .soft
   .max-readable-width
     .grid
       - count = 0
       - @participants.each_with_index do |score, index|
         - score.last.each_with_index do |participant, i|
-          .grid__item.one-third.text--right
-            = count + 1
-          .grid__item.one-third.text--center
+          .grid__item.one-half.text--right
+            = link_to (count + 1).to_s, [:edit, @game, participant]
+          .grid__item.one-half.text--left
             = participant.name
-            br
-          .grid__item.one-third
-            = score.first.round(2)
         - count += score.last.count
