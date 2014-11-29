@@ -13,6 +13,8 @@ class ParticipantsController < ApplicationController
   def update
     @game = Game.find(params[:game_id])
     @participant = Participant.find(params[:id])
+    @participant.name = permitted_params[:participant][:name]
+    @participant.location = permitted_params[:participant][:location]
     if @participant.update_attributes(permitted_params[:participant])
       redirect_to [@game, :participants]
     else
@@ -24,7 +26,8 @@ class ParticipantsController < ApplicationController
 
   def permitted_params
     params.permit(participant: [
-      :name
+      :name,
+      :location
     ])
   end
 end

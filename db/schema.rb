@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127004249) do
+ActiveRecord::Schema.define(version: 20141129001520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(version: 20141127004249) do
     t.datetime "updated_at"
     t.integer  "game_id"
     t.float    "score"
+    t.text     "location"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "country"
+    t.string   "state"
+    t.string   "sub_state"
+    t.string   "city"
   end
 
   add_index "participants", ["game_id"], name: "index_participants_on_game_id", using: :btree
@@ -46,6 +53,7 @@ ActiveRecord::Schema.define(version: 20141127004249) do
     t.datetime "updated_at"
     t.integer  "multiplier"
     t.integer  "game_id"
+    t.integer  "remote_id"
   end
 
 end

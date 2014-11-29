@@ -3,4 +3,5 @@
     .text--left
       = simple_form_for [@game, @participant] do |f|
         = f.input :name
+        = f.input :location
         = f.button :submit

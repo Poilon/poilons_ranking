@@ -1,4 +1,4 @@
 class Game < ActiveRecord::Base
-  has_many :tournaments
-  has_many :participants
+  has_many :tournaments, dependent: :destroy
+  has_many :participants, dependent: :destroy
 end

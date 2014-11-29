@@ -1,4 +1,7 @@
 = render 'games/menu'
+h4.text--center.soft--top
+  = link_to 'Add tournaments', [:new, @game, :tournament]
+
 .max-readable-width.soft.text--left
   - @tournaments.each do |tournament|
     div= link_to tournament.name, [:edit, @game, tournament]

@@ -7,23 +7,24 @@ class TournamentsController < ApplicationController
   end
 
   def new
+    @game = Game.find(params[:game_id])
     @tournament = Tournament.new
   end
 
   def create
-    Challonge::API.username = 'LeFrenchMelee'
-    #68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt
-    Challonge::API.key = '68hnWQ6wcF2ZWFFIneu4nwrJsYXxdOpAM4fn4Iwt'
+    Challonge::API.username = params[:user_name]
+    Challonge::API.key = params[:api_key]
+    @game = Game.find(params[:game_id])
 
     challonge_tournaments = Challonge::Tournament.find(:all, params: { status: 'complete' } );
     challonge_tournaments.each do |challonge_tournament|
-      tournament = Tournament.find_by_name(challonge_tournament.name)
+      tournament = Tournament.find_by_remote_id(challonge_tournament.id)
       unless tournament
-        tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: Game.find_by_name('Super Smash Bros. Melee').id)
+        tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: @game.id, remote_id: challonge_tournament.id)
         challonge_tournament.participants.each do |challonge_participant|
           participant = Participant.find_by_name(challonge_participant.name)
-          participant = Participant.create(name: challonge_participant.name) unless participant
-          result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank)
+          participant = Participant.create(name: challonge_participant.name, game_id: @game.id) unless participant
+          result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank) unless challonge_participant.final_rank.blank?
         end
       end
     end

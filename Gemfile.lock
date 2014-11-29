@@ -70,6 +70,7 @@ GEM
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
     fssm (0.2.10)
+    geocoder (1.2.6)
     hike (1.2.3)
     i18n (0.6.11)
     jbuilder (2.2.5)
@@ -180,6 +181,7 @@ DEPENDENCIES
   compass-rails
   font-awesome-rails
   friendly_id
+  geocoder
   i18n
   jbuilder (~> 2.0)
   jquery-rails
