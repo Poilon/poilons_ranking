@@ -19,6 +19,19 @@ class GamesController < ApplicationController
     end
   end
 
+  def edit
+    @game = Game.find(params[:id])
+  end
+
+  def update
+    @game = Game.find(params[:id])
+    if @game.update_attributes(permitted_params[:game])
+      redirect_to @game
+    else
+      render :edit
+    end
+  end
+
   def compute
     @game = Game.find(params[:id])
     @participants = @game.participants
@@ -30,7 +43,8 @@ class GamesController < ApplicationController
 
   def permitted_params
     params.permit(game: [
-      :name
+      :name,
+      :logo
     ])
   end
 end

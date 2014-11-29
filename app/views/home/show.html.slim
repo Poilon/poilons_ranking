@@ -1,7 +1,7 @@
 .soft
   .max-readable-width
-    - @games.each do |game|
-      .table--line.one--third.text--center
-        = link_to image_tag(game.name.parameterize.underscore + '.png'), [game, :participants]
+    - @games.order(:created_at).each do |game|
+      .grid__item.one-third.text--left.soft
+        = link_to image_tag(game.logo.url(:medium)), [game, :participants]
 
   
