@@ -28,7 +28,7 @@ class TournamentsController < ApplicationController
         end
       end
     end
-    redirect_to '/'
+    redirect_to @game
   end
 
   def edit
@@ -41,7 +41,7 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.find(params[:id])
     @tournament.multiplier = params[:tournament][:multiplier]
     if @tournament.save
-      redirect_to [@game, @tournaments]
+      redirect_to @game
     else
       render :edit
     end

@@ -49,6 +49,7 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'friendly_id'
 gem 'kaminari'
+gem 'paperclip'
 
 gem 'selected'
 # Use ActiveModel has_secure_password

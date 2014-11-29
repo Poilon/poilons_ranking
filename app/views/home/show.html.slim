@@ -1,7 +1,7 @@
 .soft
   .max-readable-width
     - @games.each do |game|
-      .table--line
-        = link_to game.name, [game, :participants]
+      .table--line.one--third.text--center
+        = link_to image_tag(game.name.parameterize.underscore + '.png'), [game, :participants]
 
   
