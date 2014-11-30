@@ -2,6 +2,6 @@
   .max-readable-width
     - @games.order(:created_at).each do |game|
       .grid__item.one-third.text--left.soft
-        = link_to image_tag(game.logo.url(:medium)), [game, :participants]
+        = link_to game.name, [game, :participants]
 
   
