@@ -1,5 +1,9 @@
 class GamesController < ApplicationController
 
+  def index
+    redirect_to '/'
+  end
+
   def show
     @game = Game.find(params[:id])
     redirect_to [@game, :tournaments]
@@ -11,6 +15,7 @@ class GamesController < ApplicationController
 
 
   def create
+    binding.pry
     @game = Game.new(permitted_params[:game])
     if @game.save
       redirect_to @game
@@ -43,7 +48,8 @@ class GamesController < ApplicationController
 
   def permitted_params
     params.permit(game: [
-      :name
+      :name,
+      :logo
     ])
   end
 end
