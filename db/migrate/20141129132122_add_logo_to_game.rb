@@ -1,5 +1,5 @@
 class AddLogoToGame < ActiveRecord::Migration
   def change
-    add_attachment :games, :logo
+    add_column :games, :logo_url, :string
   end
 end
