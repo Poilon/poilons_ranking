@@ -50,8 +50,9 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'friendly_id'
 gem 'kaminari'
-gem 'cloudinary'
 gem 'carrierwave'
+gem 'cloudinary'
+
 
 gem 'selected'
 
