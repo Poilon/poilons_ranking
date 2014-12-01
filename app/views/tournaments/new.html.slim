@@ -1,8 +1,14 @@
 .soft.max-readable-width.text--center
   = simple_form_for [@game, @tournament] do |f|
     h2= 'Syncronize With Challonge'
-    = label_tag "Challonge Username"
+    = label_tag :user_name, 'Challonge Username'
     = text_field_tag :user_name
-    = label_tag "Challonge Api Key"
+
+    = label_tag :api_key, 'Challonge Api Key'
     = text_field_tag :api_key
-    = f.button :submit, 'Syncronize Tournaments'
+    
+    h2= 'Raw tournament creation'
+    = label_tag :raw, 'Tournament'
+    = text_field_tag :raw
+
+    = f.button :submit, 'Add Tournaments'

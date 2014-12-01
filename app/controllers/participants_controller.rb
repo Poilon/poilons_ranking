@@ -1,13 +1,17 @@
 class ParticipantsController < ApplicationController
+  
   def index
     @game = Game.find(params[:game_id])
-    @participants = @game.participants
-    @participants = @participants.order(score: :desc).group_by(&:score)
+    @participants_by_score = @game.participants.order(score: :desc).group_by(&:score)
   end
 
   def edit
     @participant = Participant.find(params[:id])
     @game = Game.find(params[:game_id])
+    global_rank = 0
+    arr = []
+    @game.participants.order(score: :desc).group_by(&:score)
+
   end
 
   def update
