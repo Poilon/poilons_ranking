@@ -15,9 +15,7 @@ class GamesController < ApplicationController
 
 
   def create
-    @game = Game.new()
-    @game.logo = params[:game][:logo]
-    @game.name = params[:game][:name]
+    @game = Game.new(permitted_params[:game])
     if @game.save
       redirect_to @game
     else
@@ -31,9 +29,7 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    @game.logo = params[:game][:logo]
-    @game.name = params[:game][:name]
-    if @game.save
+    if @game.update_attributes(permitted_params[:game])
       redirect_to @game
     else
       render :edit
@@ -51,7 +47,9 @@ class GamesController < ApplicationController
 
   def permitted_params
     params.permit(game: [
-      :name
+      :name,
+      :logo,
+      :logo_cache
     ])
   end
 end
