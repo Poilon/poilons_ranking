@@ -16,4 +16,17 @@ class Participant < ActiveRecord::Base
   def compute_score
     self.update_attribute(:score, results.compute)
   end
+
+  def global_rank
+    (Participant.where('score > ?', score).count + 1).to_s
+  end
+
+  def country_rank
+    Participant.where('country = ? and score > ?', country, score).count + 1
+  end
+
+  def city_rank
+    Participant.where('city = ? and score > ?', city, score).count + 1
+  end
+
 end

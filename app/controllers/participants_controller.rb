@@ -5,6 +5,13 @@ class ParticipantsController < ApplicationController
     @participants_by_score = @game.participants.order(score: :desc).group_by(&:score)
   end
 
+  def show
+    @game = Game.find(params[:game_id])
+    @country = params[:id].capitalize
+    @participants_by_score = @game.participants.where(country: @country).order(score: :desc).group_by(&:score)
+    render :index
+  end
+
   def edit
     @participant = Participant.find(params[:id])
     @game = Game.find(params[:game_id])

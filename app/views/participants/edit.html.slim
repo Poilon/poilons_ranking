@@ -1,7 +1,17 @@
+= render partial: 'menu'
 .soft
   .max-readable-width
-    .text--left
+    .grid__item.one-half.text--left
       = simple_form_for [@game, @participant] do |f|
         = f.input :name
         = f.input :location
         = f.button :submit
+    .grid__item.one-half.text--center
+      = 'Global rank: ' + @participant.global_rank
+      br
+      br
+      - if @participant.country
+        = @participant.country + ' rank: ' + @participant.country_rank.to_s
+      br
+      - if @participant.city
+        = @participant.city + ' rank: ' + @participant.city_rank.to_s

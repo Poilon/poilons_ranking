@@ -1,14 +1,21 @@
+= render 'tournaments/form_menu'
 .soft.max-readable-width.text--center
   = simple_form_for [@game, @tournament] do |f|
-    h2= 'Syncronize With Challonge'
+    h2.soft--bottom= 'Syncronize With Challonge'
     = label_tag :user_name, 'Challonge Username'
     = text_field_tag :user_name
 
     = label_tag :api_key, 'Challonge Api Key'
     = text_field_tag :api_key
     
-    h2= 'Raw tournament creation'
-    = label_tag :raw, 'Tournament'
-    = f.text_area :raw
+    h2.soft--bottom= 'Raw tournament creation'
+    = f.input :name
 
-    = f.button :submit, 'Add Tournaments'
+    = label :raw, 'Tournament results'
+    = text_area :raw, :tournament
+
+    = f.input :multiplier, label: 'Tournament size', collection: [['City/Town', 10], ['Area', 100], ['Country/State', 1000], ['Continent', 10_000], ['World', 100_000]], include_blank: false, input_html: { class: 'one_half' }
+
+
+    .soft--top
+      = f.button :submit, 'Add Tournaments'

@@ -13,9 +13,12 @@ class TournamentsController < ApplicationController
 
   def create
     @game = Game.find(params[:game_id])
-    challonge_import if params[:api_key].present? && params[:user_name].present?
-    raw_import if params[:raw]
-    redirect_to [@game, :tournaments]
+    challonge_import if permitted_params[:api_key].present? && permitted_params[:user_name].present?
+    if params[:raw]
+      raw_import 
+    else
+      redirect_to [@game, :tournaments]
+    end
   end
 
   def edit
@@ -26,7 +29,7 @@ class TournamentsController < ApplicationController
   def update
     @game = Game.find(params[:game_id])
     @tournament = Tournament.find(params[:id])
-    @tournament.multiplier = params[:tournament][:multiplier]
+    @tournament.multiplier = permitted_params[:tournament][:multiplier]
     if @tournament.save
       redirect_to @game
     else
@@ -39,16 +42,23 @@ class TournamentsController < ApplicationController
   def access_denied
     flash[:error] = 'Bad key or username'
     @tournament = Tournament.new
+
     render :new
   end
 
   def raw_import
-    raw = params[:raw]
+    @tournament = Tournament.new(permitted_params[:tournament].merge(game_id: @game.id))
+    if @tournament.save
+      @tournament.construct_results(params[:raw][:tournament])
+      redirect_to [:edit, @game, @tournament]
+    else
+      flash[:error] = 'Invalid tournament'
+    end
   end
 
   def challonge_import
-    Challonge::API.username = params[:user_name]
-    Challonge::API.key = params[:api_key]
+    Challonge::API.username = permitted_params[:user_name]
+    Challonge::API.key = permitted_params[:api_key]
 
     challonge_tournaments = Challonge::Tournament.find(:all, params: { status: 'complete' } );
     challonge_tournaments.each do |challonge_tournament|
@@ -62,5 +72,15 @@ class TournamentsController < ApplicationController
         end
       end
     end
+  end
+
+
+  private
+
+  def permitted_params
+    params.permit(:api_key, :user_name, tournament: [
+      :name,
+      :multiplier
+    ])
   end
 end
