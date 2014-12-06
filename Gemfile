@@ -52,6 +52,7 @@ gem 'friendly_id'
 gem 'kaminari'
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'world_flags', git: 'git://github.com/djonasson/world_flags.git'
 
 
 gem 'selected'

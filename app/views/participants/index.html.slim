@@ -7,14 +7,19 @@ h4.text--center.soft--top
   h4.text--center.soft--top
     = link_to "Top #{@country}", [@game, :participants]
 
-.soft
-  .max-readable-width
-    .grid
-      - count = 0
-      - @participants_by_score.each_with_index do |score, index|
-        - score.last.each_with_index do |participant, i|
-          .grid__item.one-half.text--right
-            = link_to (count + 1).to_s, [:edit, @game, participant]
-          .grid__item.one-half.text--left
-            = link_to participant.name, [:edit, @game, participant]
-        - count += score.last.count
+ul class='f16' style='margin-left: 0px;'
+  .soft
+    .max-readable-width
+      .grid
+
+        - count = 0
+        - @participants_by_score.each_with_index do |score, index|
+          - score.last.each_with_index do |participant, i|
+            .grid__item.one-half.text--right
+              = link_to (count + 1).to_s, [:edit, @game, participant]
+            .grid__item.one-half.text--left
+              - if participant.country
+                - participant.id = participant.country
+                = link_to '&nbsp&nbsp&nbsp&nbsp&nbsp'.html_safe, [@game, :participants, country: participant.country], class: "flag #{CountryCodesList.mapping(participant.country)}"
+              = link_to  participant.name, [:edit, @game, participant]
+          - count += score.last.count

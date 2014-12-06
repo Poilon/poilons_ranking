@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/djonasson/world_flags.git
+  revision: 732e7807e7a463113378e62f879f36858af00697
+  specs:
+    world_flags (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -214,3 +220,4 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   unicorn
+  world_flags!
