@@ -4,7 +4,7 @@
     .grid__item.one-half.text--left
       = simple_form_for [@game, @participant] do |f|
         = f.input :name
-        = f.input :location, input_html: { id: 'gmaps-input-address' }, placeholder: 'Start typing a place...'
+        = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
         = f.button :submit
     .grid__item.one-half.text--center
       = 'Global rank: ' + @participant.global_rank
