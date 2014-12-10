@@ -3,15 +3,21 @@ class ParticipantsController < ApplicationController
   def index
     @game = Game.find(params[:game_id])
     @country = params[:country]
+    @city = params[:city]
     @participants = @country ? @game.participants.where(country: @country) : @game.participants
-    @participants_by_score = @participants.order(score: :desc).group_by(&:score)
+    @participants = @city ? @game.participants.where(country: @country, city: @city) : @game.participants
+    get_rank_method
+    json_participants = get_json_for_angular
+
+    respond_to do |format|
+      format.html
+      format.json { render json: json_participants }
+    end
   end
 
   def edit
     @participant = Participant.find(params[:id])
     @game = Game.find(params[:game_id])
-    global_rank = 0
-    arr = []
     @game.participants.order(score: :desc).group_by(&:score)
   end
 
@@ -28,6 +34,27 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
+
+
+  def get_json_for_angular
+    rank_method = get_rank_method
+    @participants.order(score: :desc).map do |participant|
+      participant_json = participant.attributes.merge(rank: participant.send(rank_method))
+      participant_json['country_code'] = CountryCodesList.mapping(participant.country)
+      %w(created_at updated_at score longitude latitude location).each do |useless_field|
+        participant_json.delete(useless_field)
+      end
+      participant_json
+    end
+  end
+
+  def get_rank_method
+    rank_method = 'global_rank'
+    rank_method = 'country_rank' if @country
+    rank_method = 'city_rank' if @city
+    rank_method
+  end
 
   def permitted_params
     params.permit(participant: [

@@ -251,7 +251,7 @@ class CountryCodesList
       "Zambia" => "ZM",
       "Zimbabwe" => "ZW"
     }
-    if @countrycodes && @countrycodes[country]
+    if country && @countrycodes[country]
         @countrycodes[country].downcase
     else
       nil
