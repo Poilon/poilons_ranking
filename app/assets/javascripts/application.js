@@ -23,4 +23,3 @@
 //= require cloudinary
 //= require participants
 //= require google_places
-
