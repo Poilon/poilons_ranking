@@ -22,4 +22,5 @@
 //= require_tree .
 //= require cloudinary
 //= require participants
+//= require google_places
 
