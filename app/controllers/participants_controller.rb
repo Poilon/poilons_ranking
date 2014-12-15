@@ -2,11 +2,7 @@ class ParticipantsController < ApplicationController
   
   def index
     @game = Game.find(params[:game_id])
-    @country = params[:country]
-    @city = params[:city]
-    @participants = @country ? @game.participants.where(country: @country) : @game.participants
-    @participants = @city ? @game.participants.where(country: @country, city: @city) : @game.participants
-    get_rank_method
+    @participants = get_participants_regarding_location
     json_participants = get_json_for_angular
 
     respond_to do |format|
@@ -35,8 +31,6 @@ class ParticipantsController < ApplicationController
 
   private
 
-
-
   def get_json_for_angular
     rank_method = get_rank_method
     @participants.order(score: :desc).map do |participant|
@@ -51,9 +45,22 @@ class ParticipantsController < ApplicationController
 
   def get_rank_method
     rank_method = 'global_rank'
-    rank_method = 'country_rank' if @country
-    rank_method = 'city_rank' if @city
+    rank_method = 'country_rank' if params[:country]
+    rank_method = 'city_rank' if params[:city]
     rank_method
+  end
+
+  def get_participants_regarding_location
+    country = params[:country]
+    state = params[:state]
+    sub_state = params[:sub_state]
+    city = params[:city]
+    participants = @game.participants
+    participants = participants.where(country: country) if country
+    participants = participants.where(state: state) if state
+    participants = participants.where(sub_state: sub_state) if sub_state
+    participants = participants.where(city: city) if city
+    participants
   end
 
   def permitted_params

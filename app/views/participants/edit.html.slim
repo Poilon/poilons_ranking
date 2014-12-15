@@ -6,12 +6,15 @@
         = f.input :name
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
         = f.button :submit
-    .grid__item.one-half.text--center
-      = 'Global rank: ' + @participant.global_rank
+    .grid__item.one-half.text--right
+      - link = 'Global rank: ' + @participant.global_rank.to_s
+      = link_to link, game_participants_path(@game)
       br
       br
       - if @participant.country
-        = @participant.country + ' rank: ' + @participant.country_rank.to_s
+        - link = @participant.country + ' rank: ' + @participant.country_rank.to_s
+        = link_to link, game_participants_path(@game, country: @participant.country)
       br
       - if @participant.city
-        = @participant.city + ' rank: ' + @participant.city_rank.to_s
+        - link = @participant.city + ' rank: ' + @participant.city_rank.to_s
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)

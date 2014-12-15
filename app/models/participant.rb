@@ -18,7 +18,7 @@ class Participant < ActiveRecord::Base
   end
 
   def global_rank
-    (Participant.where('score > ?', score).count + 1).to_s
+    Participant.where('score > ?', score).count + 1
   end
 
   def country_rank
@@ -26,7 +26,7 @@ class Participant < ActiveRecord::Base
   end
 
   def city_rank
-    Participant.where('city = ? and score > ?', city, score).count + 1
+    Participant.where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
   end
 
 end
