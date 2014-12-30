@@ -11,9 +11,3 @@
       .grid__item.one-half
         .soft
           = text_area :raw, :to_s, style: "height: 400px;"
-
-        - @tournament.results.order(:rank).each do |result|
-          .grid__item.one-half.text--right
-            = result.rank
-          .grid__item.one-half.text--left
-            = link_to result.participant.name, [:edit, result.participant.game, result.participant]
