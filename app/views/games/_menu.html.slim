@@ -1,7 +1,12 @@
 h2.soft.text--center
   = @game.name
-
+h3.soft.text--center
+  - if params[:city]
+    = params[:city] + ' Ranking'
+  - else
+    = params[:country] + ' Ranking' if params[:country]
+  
 .text--center
-  => link_to 'mondial ranking', [@game, :participants], class: selected?('participants', 'index')
+  => link_to 'ranking', [@game, :participants], class: selected?('participants', 'index')
   => '|'
   => link_to 'tournaments', [@game, :tournaments], class: selected?('tournaments', 'index')

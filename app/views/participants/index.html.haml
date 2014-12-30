@@ -19,17 +19,16 @@
             {{ currentPage + 1 }}/{{ numberOfPages() }}
             %button{:"ng-disabled"=> "currentPage >= filteredParticipants().length/pageSize - 1", :"ng-click"=>"currentPage = currentPage + 1"}
               Next
-            .grid
-              %div{:'ng-repeat' => 'participant in filteredParticipants() | startFrom:currentPage*pageSize | limitTo:pageSize'}
-                .grid__item.one-quarter.text--right
-                  {{ participant.rank }}
-                .grid__item.one-quarter.text--left
+        .grid{:'ng-repeat' => 'participant in filteredParticipants() | startFrom:currentPage*pageSize | limitTo:pageSize'}
+          .grid__item.one-half.text--right>
+            {{ participant.rank }}
+          .grid__item.one-half.text--left>
 
-                  %a{:'ng-href' => '/games/{{participant.game_id}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}'}
-                    &nbsp&nbsp&nbsp
-                  &nbsp
-                  %a{:"ng-href" => "/games/{{participant.game_id}}/participants/{{participant.id}}/edit"}
-                    {{ participant.name }}
+            %a{:'ng-href' => '/games/{{participant.game_id}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}'}
+              &nbsp&nbsp&nbsp
+            &nbsp
+            %a{:"ng-href" => "/games/{{participant.game_id}}/participants/{{participant.id}}/edit"}
+              {{ participant.name }}
 
 
 

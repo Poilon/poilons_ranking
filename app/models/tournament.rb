@@ -11,4 +11,9 @@ class Tournament < ActiveRecord::Base
       Result.create(participant_id: participant.id, tournament_id: id, rank: rank)
     end
   end
+
+  def to_raw
+    self.results.order('rank asc').map { |result| "#{result.rank}. #{result.participant.name}" }.join("\n")
+  end
+
 end

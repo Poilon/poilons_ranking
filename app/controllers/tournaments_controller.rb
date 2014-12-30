@@ -23,15 +23,22 @@ class TournamentsController < ApplicationController
 
   def edit
     @tournament = Tournament.find(params[:id])
+    @raw = @tournament.to_raw
     @game = Game.find(params[:game_id])
   end
 
   def update
-    @game = Game.find(params[:game_id])
-    @tournament = Tournament.find(params[:id])
-    @tournament.multiplier = permitted_params[:tournament][:multiplier]
-    if @tournament.save
-      redirect_to @game
+    game = Game.find(params[:game_id])
+    tournament = Tournament.find(params[:id])
+    tournament.multiplier = permitted_params[:tournament][:multiplier]
+    raw = params[:raw][:to_s]
+    if raw != tournament.to_raw
+      tournament.results.destroy_all
+      Participant.where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
+      tournament.construct_results(raw)
+    end
+    if tournament.save
+      redirect_to game
     else
       render :edit
     end
