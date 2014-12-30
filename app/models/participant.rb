@@ -29,4 +29,7 @@ class Participant < ActiveRecord::Base
     Participant.where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
   end
 
+  def self.clean
+    where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
+  end
 end

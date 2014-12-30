@@ -34,12 +34,10 @@ class TournamentsController < ApplicationController
     raw = params[:raw][:to_s]
     if raw != tournament.to_raw && raw.present?
       tournament.results.destroy_all
-      Participant.where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
       tournament.construct_results(raw)
     end
     if tournament.valid?
       if raw.blank?
-        Participant.where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
         tournament.destroy
       else
         tournament.save
