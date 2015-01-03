@@ -7,14 +7,27 @@
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
         = f.button :submit
     .grid__item.one-half.text--right
-      - link = 'Global rank: ' + @participant.global_rank.to_s
+      - link = 'Global rank: ' + @participant.global_rank.ordinalize
       = link_to link, game_participants_path(@game)
       br
       br
       - if @participant.country
-        - link = @participant.country + ' rank: ' + @participant.country_rank.to_s
+        - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country)
       br
       - if @participant.city
-        - link = @participant.city + ' rank: ' + @participant.city_rank.to_s
+        - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
+
+.soft
+  .max-readable-width
+    h3.text--center= 'Tournaments'
+    br
+    .grid
+    - @results.each do |result|
+      .grid__item.one-quarter.text--center
+        = link_to result.rank.ordinalize, [:edit, @game, result.tournament]
+      .grid__item.three-quarters.text--left>
+        = link_to result.tournament.name, [:edit, @game, result.tournament]
+
+        

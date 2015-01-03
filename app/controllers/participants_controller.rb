@@ -13,6 +13,7 @@ class ParticipantsController < ApplicationController
 
   def edit
     @participant = Participant.find(params[:id])
+    @results = @participant.results
     @game = Game.find(params[:game_id])
     @game.participants.order(score: :desc).group_by(&:score)
   end

@@ -5,7 +5,7 @@ class Result < ActiveRecord::Base
   def self.compute
     sum = 0
     scores = all.map(&:tournament_score)
-    7.times do
+    5.times do
       (i = scores.find_index(scores.max)) && sum += scores.delete_at(i) unless scores.blank?
     end
     (sum * 1000).round / 1000.to_f
