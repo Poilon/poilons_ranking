@@ -7,9 +7,11 @@
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
         = f.button :submit
     .grid__item.one-half.text--right
+      = "Score: #{@participant.score}"
+      br
+      br
       - link = 'Global rank: ' + @participant.global_rank.ordinalize
       = link_to link, game_participants_path(@game)
-      br
       br
       - if @participant.country
         - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
@@ -21,13 +23,13 @@
 
 .soft
   .max-readable-width
-    h3.text--center= 'Tournaments'
+    h3.text--center= 'Tournaments (only the best 5 scores count)'
     br
     .grid
-    - @results.each do |result|
-      .grid__item.one-quarter.text--center
-        = link_to result.rank.ordinalize, [:edit, @game, result.tournament]
-      .grid__item.three-quarters.text--left>
-        = link_to result.tournament.name, [:edit, @game, result.tournament]
+      - @results.sort_by{ |r| r.tournament_score }.reverse.each do |result|
+        .grid__item.one-quarter.text--center
+          = link_to "#{result.tournament_score.round(3)}", [:edit, @game, result.tournament]          
+        .grid__item.three-quarters.text--left>
+          = link_to "#{result.rank.ordinalize} @ #{result.tournament.name}", [:edit, @game, result.tournament]
 
         
