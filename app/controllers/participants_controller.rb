@@ -23,6 +23,7 @@ class ParticipantsController < ApplicationController
   def update
     @game = Game.find(params[:game_id])
     @participant = Participant.find(params[:id])
+    participant_name_already_taken
     @participant.name = permitted_params[:participant][:name]
     @participant.location = permitted_params[:participant][:location]
     if @participant.update_attributes(permitted_params[:participant])
@@ -33,6 +34,17 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
+  def participant_name_already_taken
+    if known_participant = Participant.find_by_name(permitted_params[:participant][:name])
+      @participant.results.map { |r| r.update_attribute(:participant_id, known_participant.id) }
+      if known_participant.location.blank?
+        known_participant.update_attribute(:location, @participant.location)
+      end
+      @participant.destroy
+      known_participant.compute_score
+    end
+  end
 
   def get_json_for_angular
     rank_method = get_rank_method

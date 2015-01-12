@@ -81,6 +81,7 @@ class TournamentsController < ApplicationController
           participant = Participant.find_by_name(challonge_participant.name)
           participant = Participant.create(name: challonge_participant.name, game_id: @game.id) unless participant
           result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank) unless challonge_participant.final_rank.blank?
+          participant.compute_score
         end
         tournament.update_attribute(:total_participants, tournament.results.count)
       end
