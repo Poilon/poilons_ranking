@@ -60,6 +60,7 @@ class TournamentsController < ApplicationController
   def raw_import
     @tournament = Tournament.new(permitted_params[:tournament].merge(game_id: @game.id))
     if @tournament.save
+      tournament.update_attribute(:total_participants, tournament.results.count)
       @tournament.construct_results(params[:raw][:tournament])
       redirect_to [:edit, @game, @tournament]
     else
@@ -81,7 +82,9 @@ class TournamentsController < ApplicationController
           participant = Participant.create(name: challonge_participant.name, game_id: @game.id) unless participant
           result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank) unless challonge_participant.final_rank.blank?
         end
+        tournament.update_attribute(:total_participants, tournament.results.count)
       end
+      tournament.update_attribute(:multiplier, tournament.define_mulitplier)
     end
   end
 
