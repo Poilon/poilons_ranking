@@ -16,4 +16,11 @@ class Tournament < ActiveRecord::Base
     self.results.order('rank asc').map { |result| "#{result.rank}. #{result.participant.name}" }.join("\n")
   end
 
+  def define_multiplier
+    multiplier = 0
+    self.results.each do |result|
+      multiplier += result.participant.score / 10
+    end
+    multiplier + (results.count * 3)
+  end
 end

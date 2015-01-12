@@ -1,7 +1,7 @@
 app = angular.module('application', ['ngResource'])
 
 app.factory 'Participants', ($resource) ->
-  $resource('/games/1/participants.json'.concat(location.search), {participantId: '@id'})
+  $resource(location.pathname.concat('.json').concat(location.search), {participantId: '@id'})
 
 app.controller 'ParticipantsController', ($scope, Participants) ->
   $scope.participants = Participants.query()

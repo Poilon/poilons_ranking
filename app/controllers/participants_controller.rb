@@ -2,12 +2,14 @@ class ParticipantsController < ApplicationController
   
   def index
     @game = Game.find(params[:game_id])
-    @participants = get_participants_regarding_location
-    json_participants = get_json_for_angular
 
     respond_to do |format|
       format.html
-      format.json { render json: json_participants }
+      format.json do
+        @participants = get_participants_regarding_location
+        json_participants = get_json_for_angular
+        render json: json_participants
+      end
     end
   end
 
