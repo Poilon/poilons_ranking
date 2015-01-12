@@ -1,8 +1,5 @@
 = render 'games/menu'
 
-%h4.text--center.soft--top
-  = link_to "<i class='fa fa-rotate-right'></i>".html_safe, [:compute, @game]
-
 - if @country
   %h4.text--center.soft--top
     = link_to "Top #{@country}", [@game, :participants]
