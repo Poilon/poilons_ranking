@@ -13,6 +13,10 @@ class Tournament < ActiveRecord::Base
     end
   end
 
+  def compute_scores
+    self.results.map { |r| r.participant.compute_score }
+  end
+
   def to_raw
     self.results.order('rank asc').map { |result| "#{result.rank}. #{result.participant.name}" }.join("\n")
   end

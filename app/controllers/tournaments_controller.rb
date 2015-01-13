@@ -41,6 +41,7 @@ class TournamentsController < ApplicationController
         tournament.destroy
       else
         tournament.save
+        tournament.compute_scores
       end
       redirect_to game
     else

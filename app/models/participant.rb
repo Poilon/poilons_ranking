@@ -32,4 +32,12 @@ class Participant < ActiveRecord::Base
   def self.clean
     where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
   end
+
+  def merge_process
+    if participant = Participant.find_by_name(self.name)
+      results.each { |r| r.update_attribute(:participant_id, participant.id) }
+      self.reload.destroy
+      participant.compute_score
+    end
+  end
 end

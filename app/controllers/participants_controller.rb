@@ -23,9 +23,12 @@ class ParticipantsController < ApplicationController
   def update
     @game = Game.find(params[:game_id])
     @participant = Participant.find(params[:id])
-    @participant.name = permitted_params[:participant][:name]
     @participant.location = permitted_params[:participant][:location]
-    if @participant.update_attributes(permitted_params[:participant])
+    if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
+      @participant.name = permitted_params[:participant][:name]
+      @participant.merge_process if Participant.find_by_name(@participant.name)
+    end
+    if !@participant.persisted? || @participant.save 
       redirect_to [@game, :participants]
     else
       render :edit
@@ -36,7 +39,7 @@ class ParticipantsController < ApplicationController
 
   def get_json_for_angular
     rank_method = get_rank_method
-    @participants.order(score: :desc).map do |participant|
+    @participants.order(score: :desc, name: :asc).map do |participant|
       participant_json = participant.attributes.merge(rank: participant.send(rank_method))
       participant_json['country_code'] = CountryCodesList.mapping(participant.country)
       %w(created_at updated_at score longitude latitude location).each do |useless_field|

@@ -3,7 +3,7 @@
   .max-readable-width
     .grid__item.one-half.text--left
       = simple_form_for [@game, @participant] do |f|
-        = f.input :name
+        = f.input :name, required: true
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
         = f.button :submit
     .grid__item.one-half.text--right
