@@ -18,15 +18,15 @@ class Participant < ActiveRecord::Base
   end
 
   def global_rank
-    Participant.where('score > ?', score).count + 1
+    Participant.where(game_id: game.id).where('score > ?', score).count + 1
   end
 
   def country_rank
-    Participant.where('country = ? and score > ?', country, score).count + 1
+    Participant.where(game_id: game.id).where('country = ? and score > ?', country, score).count + 1
   end
 
   def city_rank
-    Participant.where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
+    Participant.where(game_id: game.id).where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
   end
 
   def self.clean
