@@ -45,9 +45,9 @@ class Participant < ActiveRecord::Base
 
   def training_partners
     return city_buddies if city && city_buddies.count > 0
-    return sub_state_buddies if sub_state && sub_state_buddies > 0
-    return state_buddies if state && state_buddies > 0
-    return country_buddies if country && country_buddies > 0
+    return sub_state_buddies if sub_state && sub_state_buddies.count > 0
+    return state_buddies if state && state_buddies.count > 0
+    return country_buddies if country && country_buddies.count > 0
     return world_buddies
   end
 
