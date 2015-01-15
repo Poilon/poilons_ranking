@@ -28,6 +28,16 @@
       - if @participant.city
         - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
+      br
+      - if next_target = @participant.next_target
+        = "#{@participant.name}'s next target is "
+        = link_to next_target.name, [:edit, @game, next_target]
+      br
+      - if training_partners = @participant.training_partners
+        = 'He should train with '
+        - training_partners.each do |player|
+          = link_to player.name + ' ', [:edit, @game, player]
+
 
 .soft
   .max-readable-width
