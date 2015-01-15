@@ -3,6 +3,10 @@ h2.soft.text--center
 h3.soft.text--center
   - if params[:city]
     = params[:city] + ' Ranking'
+  - elsif params[:sub_state]
+    = params[:sub_state] + ' Ranking'
+  - elsif params[:state]
+    = params[:state] + ' Ranking'
   - else
     = params[:country] + ' Ranking' if params[:country]
   

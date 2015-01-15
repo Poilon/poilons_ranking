@@ -17,6 +17,14 @@
         - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country)
       br
+      - if @participant.state
+        - link = @participant.state + ' rank: ' + @participant.state_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state)
+      br
+      - if @participant.sub_state
+        - link = @participant.sub_state + ' rank: ' + @participant.sub_state_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state)
+      br
       - if @participant.city
         - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)

@@ -1,9 +1,5 @@
 = render 'games/menu'
 
-- if @country
-  %h4.text--center.soft--top
-    = link_to "Top #{@country}", [@game, :participants]
-
 %ul{class: 'f16', style: 'margin-left: 0px;'}
   .soft
     .max-readable-width.text--center

@@ -25,6 +25,14 @@ class Participant < ActiveRecord::Base
     Participant.where(game_id: game.id).where('country = ? and score > ?', country, score).count + 1
   end
 
+  def state_rank
+    Participant.where(game_id: game.id).where('country = ? and state = ? and score > ?', country, state, score).count + 1
+  end
+
+  def sub_state_rank
+    Participant.where(game_id: game.id).where('country = ? and sub_state = ? and state = ? and score > ?', country, sub_state, state, score).count + 1
+  end
+
   def city_rank
     Participant.where(game_id: game.id).where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
   end

@@ -3,7 +3,12 @@ class TournamentsController < ApplicationController
 
   def index
     @game = Game.find(params[:game_id])
-    @tournaments = @game.tournaments.order(:created_at)
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: @game.tournaments.order('created_at desc')
+      end
+    end
   end
 
   def new

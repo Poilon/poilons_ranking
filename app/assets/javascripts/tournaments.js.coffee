@@ -1,3 +1,21 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+app = angular.module('tournaments_app', ['ngResource'])
+
+app.factory 'Tournaments', ($resource) ->
+  $resource(location.pathname.concat('.json').concat(location.search), {tournamentId: '@id'})
+
+app.controller 'TournamentsController', ($scope, Tournaments) ->
+  $scope.tournaments = Tournaments.query()
+  $scope.currentPage = 0
+  $scope.pageSize = 20
+  $scope.search =
+    $:""
+  $scope.filteredTournaments = ->
+    _.filter $scope.tournaments, (tournament) ->
+      tournament.name.match($scope.search.$)
+  $scope.numberOfPages = ->
+    Math.ceil($scope.filteredTournaments().length/$scope.pageSize)
+
+app.filter 'startFrom', ->
+  (input, start) ->
+    start = +start
+    input.slice(start);
