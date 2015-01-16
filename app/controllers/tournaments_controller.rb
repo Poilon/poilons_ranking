@@ -35,6 +35,7 @@ class TournamentsController < ApplicationController
   def update
     game = Game.find(params[:game_id])
     tournament = Tournament.find(params[:id])
+    old_participants = tournament.results.map(&:participant)
     tournament.multiplier = permitted_params[:tournament][:multiplier]
     raw = params[:raw][:to_s]
     if raw != tournament.to_raw && raw.present?
@@ -47,6 +48,7 @@ class TournamentsController < ApplicationController
       else
         tournament.save
         tournament.compute_scores
+        old_participants.map(&:compute_score)
       end
       redirect_to game
     else
