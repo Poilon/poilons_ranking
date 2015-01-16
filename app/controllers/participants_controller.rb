@@ -29,7 +29,6 @@ class ParticipantsController < ApplicationController
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     if !@participant.persisted? || @participant.save 
-      @participant.compute_score
       redirect_to [@game, :participants]
     else
       render :edit
