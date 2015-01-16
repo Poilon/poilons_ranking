@@ -29,6 +29,7 @@ class ParticipantsController < ApplicationController
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     if !@participant.persisted? || @participant.save 
+      @participant.compute_score
       redirect_to [@game, :participants]
     else
       render :edit
@@ -52,6 +53,8 @@ class ParticipantsController < ApplicationController
   def get_rank_method
     rank_method = 'global_rank'
     rank_method = 'country_rank' if params[:country]
+    rank_method = 'state_rank' if params[:state]
+    rank_method = 'sub_state_rank' if params[:sub_state]
     rank_method = 'city_rank' if params[:city]
     rank_method
   end
