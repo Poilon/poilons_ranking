@@ -20,7 +20,6 @@
 //= require gmaps-auto-complete
 //= require turbolinks
 //= require_tree .
-//= require cloudinary
 //= require participants
 //= require tournaments
 //= require google_places
