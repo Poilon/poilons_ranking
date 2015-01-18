@@ -20,6 +20,14 @@ class ParticipantsController < ApplicationController
     @game.participants.order(score: :desc).group_by(&:score)
   end
 
+  def show
+    @participant = Participant.find(params[:id])
+    @results = @participant.results
+    @game = Game.find(params[:game_id])
+    @game.participants.order(score: :desc).group_by(&:score)
+  end
+
+
   def update
     @game = Game.find(params[:game_id])
     @participant = Participant.find(params[:id])
@@ -29,7 +37,7 @@ class ParticipantsController < ApplicationController
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     if !@participant.persisted? || @participant.save 
-      redirect_to [@game, :participants]
+      redirect_to [@game, @participant]
     else
       render :edit
     end

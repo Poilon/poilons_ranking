@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admins, skip: [:registrations, :passwords]
   resources :games do
     member do
       get :compute

@@ -1,0 +1,53 @@
+= render partial: 'menu'
+.soft
+  .max-readable-width
+    .grid__item.one-half.text--left
+      = @participant.name
+      br
+      br
+      = @participant.location
+    .grid__item.one-half.text--right
+      = "Score: #{@participant.score}"
+      br
+      br
+      - link = 'Global rank: ' + @participant.global_rank.ordinalize
+      = link_to link, game_participants_path(@game)
+      br
+      - if @participant.country
+        - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country)
+      br
+      - if @participant.state
+        - link = @participant.state + ' rank: ' + @participant.state_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state)
+      br
+      - if @participant.sub_state
+        - link = @participant.sub_state + ' rank: ' + @participant.sub_state_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state)
+      br
+      - if @participant.city
+        - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
+        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
+      br
+      - if next_target = @participant.next_target
+        = "#{@participant.name}'s next target is "
+        = link_to next_target.name, [@game, next_target]
+      br
+      - if training_partners = @participant.training_partners
+        = 'He should train with '
+        - training_partners.each do |player|
+          = link_to player.name + ' ', [@game, player]
+
+
+.soft
+  .max-readable-width
+    h3.text--center= 'Tournaments (only the best 5 scores count)'
+    br
+    .grid
+      - @results.sort_by{ |r| r.tournament_score }.reverse.each do |result|
+        .grid__item.one-quarter.text--center
+          = link_to "#{result.tournament_score.round(3)}", [@game, result.tournament]          
+        .grid__item.three-quarters.text--left>
+          = link_to "#{result.rank.ordinalize} @ #{result.tournament.name}", [@game, result.tournament]
+
+        

@@ -4,8 +4,9 @@
   .max-readable-width.text--center
     %div{:"ng-app" => "tournaments_app", :"ng-controller" => "TournamentsController"}
       {{ filteredTournaments().length }} Tournaments
-      = ' | '
-      = link_to 'Add a tournament', [:new, @game, :tournament]
+      - if current_admin
+        = ' | '
+        = link_to 'Add a tournament', [:new, @game, :tournament]
       .form-search.form-inline
         %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a tournament here...".html_safe}
           %button{:"ng-disabled"=>"currentPage == 0", :"ng-click"=>"currentPage = currentPage - 1"}
@@ -15,8 +16,8 @@
             Next
       .grid{:'ng-repeat' => 'tournament in filteredTournaments() | startFrom:currentPage*pageSize | limitTo:pageSize'}
         .grid__item.three-quarters.text--left>
-          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}/edit"}
+          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}"}
             {{ tournament.name }}
         .grid__item.one-quarter.text--left>
-          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}/edit"}
+          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}"}
             {{ tournament.multiplier }}

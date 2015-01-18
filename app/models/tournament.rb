@@ -18,7 +18,7 @@ class Tournament < ActiveRecord::Base
   end
 
   def to_raw
-    self.results.order('rank asc').map { |result| "#{result.rank}. #{result.participant.name}" }.join("\n")
+    self.results.order('rank asc').map { |result| "#{result.rank}. #{result.participant.name if result.participant}" }.join("\n")
   end
 
   def define_multiplier

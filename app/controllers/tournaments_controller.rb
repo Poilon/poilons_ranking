@@ -26,6 +26,11 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def show
+    @game = Game.find(params[:game_id])
+    @tournament = Tournament.find(params[:id])
+  end
+
   def edit
     @tournament = Tournament.find(params[:id])
     @raw = @tournament.to_raw
