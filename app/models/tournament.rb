@@ -2,6 +2,16 @@ class Tournament < ActiveRecord::Base
   belongs_to :game
   has_many :results, dependent: :destroy
 
+  include FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+  
+  def slug_candidates
+    [
+      :name,
+      [:name, :id],
+    ]
+  end
+
   def construct_results(raw)
     raw.lines.each do |line|
       rank = line.strip.scan(/^\d*/).first      

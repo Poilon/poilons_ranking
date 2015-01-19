@@ -1,5 +1,7 @@
 class ParticipantsController < ApplicationController
-  
+  before_filter :authenticate_admin!, only: [:edit, :update]
+
+
   def index
     @game = Game.find(params[:game_id])
 
@@ -32,6 +34,8 @@ class ParticipantsController < ApplicationController
     @game = Game.find(params[:game_id])
     @participant = Participant.find(params[:id])
     @participant.location = permitted_params[:participant][:location]
+    @participant.twitter = permitted_params[:participant][:twitter]
+    @participant.youtube = permitted_params[:participant][:youtube]
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
@@ -47,9 +51,11 @@ class ParticipantsController < ApplicationController
 
   def get_json_for_angular
     rank_method = get_rank_method
+    game_slug = @game.slug
     @participants.order(score: :desc, name: :asc).map do |participant|
       participant_json = participant.attributes.merge(rank: participant.send(rank_method))
       participant_json['country_code'] = CountryCodesList.mapping(participant.country)
+      participant_json['game_slug'] = game_slug
       %w(created_at updated_at score longitude latitude location).each do |useless_field|
         participant_json.delete(useless_field)
       end
@@ -57,14 +63,6 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def get_rank_method
-    rank_method = 'global_rank'
-    rank_method = 'country_rank' if params[:country]
-    rank_method = 'state_rank' if params[:state]
-    rank_method = 'sub_state_rank' if params[:sub_state]
-    rank_method = 'city_rank' if params[:city]
-    rank_method
-  end
 
   def get_participants_regarding_location
     country = params[:country]
@@ -82,7 +80,9 @@ class ParticipantsController < ApplicationController
   def permitted_params
     params.permit(participant: [
       :name,
-      :location
+      :location,
+      :twitter,
+      :youtube
     ])
   end
 end

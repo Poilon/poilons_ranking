@@ -12,7 +12,26 @@ class Participant < ActiveRecord::Base
   end
   after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
   after_validation :reverse_geocode
+
+  include FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
   
+  def slug_candidates
+    [
+      :name,
+      [:name, :city],
+      [:name, :id],
+    ]
+  end
+
+  def twitter_link
+    twitter_id = twitter
+    if twitter_id
+      twitter_id = twitter_id[1..-1] if twitter_id.first == '@'
+      "http://www.twitter.com/#{twitter_id}"
+    end
+  end
+
   def compute_score
     self.update_attribute(:score, results.compute)
   end

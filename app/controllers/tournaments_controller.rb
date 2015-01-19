@@ -1,4 +1,5 @@
 class TournamentsController < ApplicationController
+  before_filter :authenticate_admin!, only: [:edit, :update]
   rescue_from ActiveResource::UnauthorizedAccess, with: :access_denied
 
   def index
@@ -6,7 +7,7 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render json: @game.tournaments.order('created_at desc')
+        render json: get_json_for_angular_tournaments
       end
     end
   end
@@ -29,6 +30,13 @@ class TournamentsController < ApplicationController
   def show
     @game = Game.find(params[:game_id])
     @tournament = Tournament.find(params[:id])
+    @results = @tournament.results
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: get_json_for_angular_results
+      end
+    end
   end
 
   def edit
@@ -62,6 +70,31 @@ class TournamentsController < ApplicationController
   end
 
   private
+
+  def get_json_for_angular_tournaments
+    game_slug = @game.slug
+    @game.tournaments.order(created_at: :desc).map do |tournament|
+      tournament_json = tournament.attributes.merge(game_slug: game_slug)
+      %w(created_at updated_at).each do |useless_field|
+        tournament_json.delete(useless_field)
+      end
+      tournament_json
+    end
+  end
+
+  def get_json_for_angular_results
+    game_slug = @game.slug
+    @results.order(rank: :asc).map do |result|
+      {
+        rank: result.rank,
+        participant_slug: result.participant.slug,
+        participant_name: result.participant.name,
+        game_slug: game_slug,
+        country_code: CountryCodesList.mapping(result.participant.country),
+        country: result.participant.country
+      }
+    end
+  end
 
   def access_denied
     flash[:error] = 'Bad key or username'

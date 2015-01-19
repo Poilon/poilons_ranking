@@ -22,4 +22,5 @@
 //= require_tree .
 //= require participants
 //= require tournaments
+//= require results
 //= require google_places

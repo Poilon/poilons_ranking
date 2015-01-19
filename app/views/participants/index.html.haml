@@ -17,10 +17,10 @@
             {{ participant.rank }}
           .grid__item.one-half.text--left>
 
-            %a{:'ng-href' => '/games/{{participant.game_id}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}'}
+            %a{:'ng-href' => '/games/{{participant.game_slug}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}'}
               &nbsp&nbsp&nbsp
             &nbsp
-            %a{:"ng-href" => "/games/{{participant.game_id}}/participants/{{participant.id}}"}
+            %a{:"ng-href" => "/games/{{participant.game_slug}}/participants/{{participant.slug}}"}
               {{ participant.name }}
 
 

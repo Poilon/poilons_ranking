@@ -17,8 +17,8 @@ body
       p class='alert'
         = alert
     h1.text--center.soft= link_to 'Poilon\'s Ranking Alpha Version', root_path
-    .text--center.soft.green
-      - if current_admin.present?
+    - if current_admin.present?
+      .text--center.soft.green
         = link_to "Logged as #{current_admin.email}"
         br
         = link_to 'Logout', destroy_admin_session_path, method: :delete

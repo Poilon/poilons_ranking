@@ -16,8 +16,8 @@
             Next
       .grid{:'ng-repeat' => 'tournament in filteredTournaments() | startFrom:currentPage*pageSize | limitTo:pageSize'}
         .grid__item.three-quarters.text--left>
-          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}"}
+          %a{:"ng-href" => "/games/{{tournament.game_slug}}/tournaments/{{tournament.slug}}"}
             {{ tournament.name }}
         .grid__item.one-quarter.text--left>
-          %a{:"ng-href" => "/games/{{tournament.game_id}}/tournaments/{{tournament.id}}"}
+          %a{:"ng-href" => "/games/{{tournament.game_slug}}/tournaments/{{tournament.slug}}"}
             {{ tournament.multiplier }}

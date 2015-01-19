@@ -2,10 +2,18 @@
 .soft
   .max-readable-width
     .grid__item.one-half.text--left
-      = @participant.name
-      br
-      br
-      = @participant.location
+      - if @participant.twitter
+        => 'Twitter: '
+        = link_to @participant.twitter, @participant.twitter_link
+        br
+        br
+      - if @participant.youtube
+        => 'Youtube: '
+        = link_to @participant.youtube, "http://www.youtube.com/#{@participant.youtube}"
+        br
+        br
+
+      = 'Location: ' + @participant.location
     .grid__item.one-half.text--right
       = "Score: #{@participant.score}"
       br
