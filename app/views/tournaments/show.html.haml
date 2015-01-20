@@ -15,7 +15,7 @@
           %br
           = "Date"
           %br
-          = @tournament.date
+          = @tournament.date.to_s.split(' ').first
     .grid__item.one-half>
       %ul{class: 'f16', style: 'margin-left: 0px;'}
         .soft

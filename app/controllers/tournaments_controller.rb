@@ -51,7 +51,6 @@ class TournamentsController < ApplicationController
     old_participants = tournament.results.map(&:participant)
     tournament.multiplier = permitted_params[:tournament][:multiplier]
     tournament.date = (permitted_params[:tournament]['date(1i)'] + '-' + permitted_params[:tournament]['date(2i)'] + '-' + permitted_params[:tournament]['date(3i)']).to_date
-    binding.pry
     raw = params[:raw][:to_s]
     if raw != tournament.to_raw && raw.present?
       tournament.results.destroy_all
@@ -65,7 +64,7 @@ class TournamentsController < ApplicationController
         tournament.compute_scores
         old_participants.map(&:compute_score)
       end
-      redirect_to game
+      redirect_to [game, tournament]
     else
       render :edit
     end
