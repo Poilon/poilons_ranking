@@ -6,12 +6,12 @@ app.factory 'Results', ($resource) ->
 app.controller 'ResultsController', ($scope, Results) ->
   $scope.results = Results.query()
   $scope.currentPage = 0
-  $scope.pageSize = 100
+  $scope.pageSize = 20
   $scope.search =
     $:""
   $scope.filteredResults = ->
     _.filter $scope.results, (result) ->
-      result.name.match($scope.search.$)
+      result.participant_name.match($scope.search.$)
   $scope.numberOfPages = ->
     Math.ceil($scope.filteredResults().length/$scope.pageSize)
 
