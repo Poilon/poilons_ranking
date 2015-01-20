@@ -50,6 +50,7 @@ class TournamentsController < ApplicationController
     tournament = Tournament.find(params[:id])
     old_participants = tournament.results.map(&:participant)
     tournament.multiplier = permitted_params[:tournament][:multiplier]
+    tournament.date = (permitted_params[:tournament]['date(1i)'] + '-' + permitted_params[:tournament]['date(2i)'] + '-' + permitted_params[:tournament]['date(3i)']).to_date
     raw = params[:raw][:to_s]
     if raw != tournament.to_raw && raw.present?
       tournament.results.destroy_all
@@ -63,7 +64,7 @@ class TournamentsController < ApplicationController
         tournament.compute_scores
         old_participants.map(&:compute_score)
       end
-      redirect_to game
+      redirect_to [game, tournament]
     else
       render :edit
     end
@@ -84,14 +85,14 @@ class TournamentsController < ApplicationController
 
   def get_json_for_angular_results
     game_slug = @game.slug
-    @results.order(rank: :asc).map do |result|
+    json_results = @results.order(rank: :asc).map do |result|
       {
         rank: result.rank,
-        participant_slug: result.participant.slug,
-        participant_name: result.participant.name,
+        participant_slug: result.participant ? result.participant.slug : '',
+        participant_name: result.participant ? result.participant.name : '',
         game_slug: game_slug,
-        country_code: CountryCodesList.mapping(result.participant.country),
-        country: result.participant.country
+        country_code: result.participant ? CountryCodesList.mapping(result.participant.country) : '',
+        country: result.participant ? result.participant.country : ''
       }
     end
   end
@@ -125,7 +126,7 @@ class TournamentsController < ApplicationController
       unless tournament
         tournament = Tournament.create(name: challonge_tournament.name, multiplier: 100, game_id: @game.id, remote_id: challonge_tournament.id)
         challonge_tournament.participants.each do |challonge_participant|
-          participant = Participant.find_by_name(challonge_participant.name)
+          participant = Participant.where(game_id: @game.id).find_by_name(challonge_participant.name)
           participant = Participant.create(name: challonge_participant.name, game_id: @game.id) unless participant
           result = Result.create(participant_id: participant.id, tournament_id: tournament.id, rank: challonge_participant.final_rank) unless challonge_participant.final_rank.blank?
         end
@@ -142,7 +143,8 @@ class TournamentsController < ApplicationController
   def permitted_params
     params.permit(:api_key, :user_name, tournament: [
       :name,
-      :multiplier
+      :multiplier,
+      :date
     ])
   end
 end

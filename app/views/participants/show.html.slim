@@ -12,8 +12,14 @@
         = link_to @participant.youtube, "http://www.youtube.com/#{@participant.youtube}"
         br
         br
+      - if @participant.wiki
+        => 'Wiki: '
+        = link_to @participant.wiki, "http://wiki.teamliquid.net/smash/#{@participant.wiki}"
+        br
+        br
 
-      = 'Location: ' + @participant.location
+
+      = 'Location: ' + @participant.location if @participant.location
     .grid__item.one-half.text--right
       = "Score: #{@participant.score}"
       br

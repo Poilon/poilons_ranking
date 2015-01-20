@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_filter :authenticate_admin!, only: [:new, :create, :edit, :update]
 
   def index
     redirect_to '/'

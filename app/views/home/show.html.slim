@@ -2,4 +2,4 @@
   .grid
     - @games.order(:created_at).each do |game|
       .grid__item.one-third.text--center.soft--top
-        = link_to image_tag(game.name.parameterize.underscore + '.png', size: '140x180', alt: game.name), [game, :participants]
+        = link_to image_tag(game.name.parameterize.underscore + '.jpg', size: '140x180', alt: game.name), [game, :participants]
