@@ -50,6 +50,8 @@ class TournamentsController < ApplicationController
     tournament = Tournament.find(params[:id])
     old_participants = tournament.results.map(&:participant)
     tournament.multiplier = permitted_params[:tournament][:multiplier]
+    tournament.date = (permitted_params[:tournament]['date(1i)'] + '-' + permitted_params[:tournament]['date(2i)'] + '-' + permitted_params[:tournament]['date(3i)']).to_date
+    binding.pry
     raw = params[:raw][:to_s]
     if raw != tournament.to_raw && raw.present?
       tournament.results.destroy_all
@@ -142,7 +144,8 @@ class TournamentsController < ApplicationController
   def permitted_params
     params.permit(:api_key, :user_name, tournament: [
       :name,
-      :multiplier
+      :multiplier,
+      :date
     ])
   end
 end

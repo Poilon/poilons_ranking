@@ -7,7 +7,15 @@
       = link_to 'edit', [:edit, @game, @tournament] if current_admin
     .grid__item.one-half.text--left>
       .soft
-        = "Tournament ratio\n #{@tournament.multiplier}"
+        = 'Tournament ratio'
+        %br
+        =  @tournament.multiplier.to_s
+        - if @tournament.date
+          %br
+          %br
+          = "Date"
+          %br
+          = @tournament.date
     .grid__item.one-half>
       %ul{class: 'f16', style: 'margin-left: 0px;'}
         .soft

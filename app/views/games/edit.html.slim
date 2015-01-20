@@ -1,6 +1,6 @@
 .soft
   .max-readable-width
-    = simple_form_for @game, :html => { :multipart => true } do |f|
+    = simple_form_for @game, html: { multipart: true } do |f|
       = f.input :name
       = f.button :submit
 

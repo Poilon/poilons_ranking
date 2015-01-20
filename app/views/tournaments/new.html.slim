@@ -15,6 +15,7 @@
     = text_area :raw, :tournament, placeholder: "1. Poilon\n2. Armada\n3. Mango\n4. Dr. PPMD\n..."
 
     = f.input :multiplier, label: 'Tournament size', collection: [['City/Town', 10], ['Area', 100], ['Country/State', 1000], ['Continent', 10_000], ['World', 100_000]], include_blank: false, input_html: { class: 'one_half' }
+    = f.input :date, as: :date
 
 
     .soft--top

@@ -6,6 +6,7 @@
     = simple_form_for [@game, @tournament] do |f|
       .grid__item.one-half.text--left
         = f.input :multiplier, label: 'Tournament size', input_html: { class: 'one_half' }
+        = f.input :date, as: :date
         br
         = f.button :submit, input_html: { class: 'text--center'}
       .grid__item.one-half

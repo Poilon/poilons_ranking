@@ -34,6 +34,7 @@ class ParticipantsController < ApplicationController
     @participant.location = permitted_params[:participant][:location]
     @participant.twitter = permitted_params[:participant][:twitter]
     @participant.youtube = permitted_params[:participant][:youtube]
+    @participant.wiki = permitted_params[:participant][:wiki]
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
@@ -80,7 +81,8 @@ class ParticipantsController < ApplicationController
       :name,
       :location,
       :twitter,
-      :youtube
+      :youtube,
+      :wiki
     ])
   end
 end

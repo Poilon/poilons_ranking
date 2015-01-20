@@ -1,5 +1,5 @@
 h2.soft.text--center
-  = @game.name
+  = link_to @game.name, [@game, :participants]
 h3.soft.text--center
   - if params[:city]
     = params[:city] + ' Ranking'
