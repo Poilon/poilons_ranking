@@ -1,6 +1,7 @@
 class Tournament < ActiveRecord::Base
   belongs_to :game
   has_many :results, dependent: :destroy
+  before_save :calculate_total_participants
 
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
@@ -37,5 +38,9 @@ class Tournament < ActiveRecord::Base
       multiplier += result.participant.score / 10
     end
     multiplier + (results.count * 3)
+  end
+
+  def calculate_total_participants
+    total_participants = results.count
   end
 end

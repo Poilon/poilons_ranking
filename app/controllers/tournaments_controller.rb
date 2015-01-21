@@ -64,6 +64,7 @@ class TournamentsController < ApplicationController
         tournament.compute_scores
         old_participants.map(&:compute_score)
       end
+      Participant.clean
       redirect_to [game, tournament]
     else
       render :edit
