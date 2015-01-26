@@ -103,7 +103,7 @@ class Participant < ActiveRecord::Base
   end
 
   def world_buddies
-    game_participants.close_buddies(id, score)
+    game_participants.get_close_buddies(id, score)
   end
 
   def self.from_city(country, state, sub_state, city)
