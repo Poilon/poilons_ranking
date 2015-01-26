@@ -1,5 +1,6 @@
 class Participant < ActiveRecord::Base
   has_many :results, dependent: :destroy
+  has_many :alternate_nicknames, dependent: :destroy
   belongs_to :game
   geocoded_by :location
   reverse_geocoded_by :latitude, :longitude do |obj, results|

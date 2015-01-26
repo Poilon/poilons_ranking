@@ -1,46 +1,51 @@
 = render partial: 'menu'
 .soft
-  .max-readable-width
-    .grid__item.one-half.text--left
-      = simple_form_for [@game, @participant] do |f|
+  = simple_form_for [@game, @participant] do |f|
+    .max-readable-width
+      .grid__item.one-half.text--left
+
         = f.input :name, required: true
         = f.input :twitter
         = f.input :youtube
         = f.input :wiki
-        = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
-        = f.button :submit
-    .grid__item.one-half.text--right
-      = "Score: #{@participant.score}"
-      br
-      br
-      - link = 'Global rank: ' + @participant.global_rank.ordinalize
-      = link_to link, game_participants_path(@game)
-      br
-      - if @participant.country
-        - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
-        = link_to link, game_participants_path(@game, country: @participant.country)
-      br
-      - if @participant.state
-        - link = @participant.state + ' rank: ' + @participant.state_rank.ordinalize
-        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state)
-      br
-      - if @participant.sub_state
-        - link = @participant.sub_state + ' rank: ' + @participant.sub_state_rank.ordinalize
-        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state)
-      br
-      - if @participant.city
-        - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
-        = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
-      br
-      - if next_target = @participant.next_target
-        = "#{@participant.name}'s next target is "
-        = link_to next_target.name, [:edit, @game, next_target]
-      br
-      - if training_partners = @participant.training_partners
-        = 'He should train with '
-        - training_partners.each do |player|
-          = link_to player.name + ' ', [:edit, @game, player]
+        = label :alternate_nicknames, 'Alternate nicknames'
+        = text_area :alternate_nicknames, :to_s, placeholder: "Armada\n[A]rmada\nARmada\n..."
 
+        = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
+      .grid__item.one-half.text--right
+        = "Score: #{@participant.score}"
+        br
+        br
+        - link = 'Global rank: ' + @participant.global_rank.ordinalize
+        = link_to link, game_participants_path(@game)
+        br
+        - if @participant.country
+          - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
+          = link_to link, game_participants_path(@game, country: @participant.country)
+        br
+        - if @participant.state
+          - link = @participant.state + ' rank: ' + @participant.state_rank.ordinalize
+          = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state)
+        br
+        - if @participant.sub_state
+          - link = @participant.sub_state + ' rank: ' + @participant.sub_state_rank.ordinalize
+          = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state)
+        br
+        - if @participant.city
+          - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
+          = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
+        br
+        - if next_target = @participant.next_target
+          = "#{@participant.name}'s next target is "
+          = link_to next_target.name, [:edit, @game, next_target]
+        br
+        - if training_partners = @participant.training_partners
+          = 'He should train with '
+          - training_partners.each do |player|
+            = link_to player.name + ' ', [:edit, @game, player]
+        br
+        br
+        = f.button :submit
 
 .soft
   .max-readable-width

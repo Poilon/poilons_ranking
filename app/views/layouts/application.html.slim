@@ -10,12 +10,6 @@ html
 
 body
   .header-site
-    - if notice
-      p class='notice'
-        = notice
-    - if alert
-      p class='alert'
-        = alert
     h1.text--center.soft= link_to 'Poilon\'s Ranking Beta Version', root_path
     - if current_admin.present?
       .text--center.soft.green
@@ -25,6 +19,12 @@ body
     - else
       .text--right.small
         = link_to 'Admin Login', new_admin_session_path
+    - if notice
+      p class='notice'
+        = notice
+    - if alert
+      p class='alert'
+        = alert
   = yield
 
 = render partial: 'layouts/footer'

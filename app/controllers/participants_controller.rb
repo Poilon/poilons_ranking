@@ -19,6 +19,7 @@ class ParticipantsController < ApplicationController
     @participant = Participant.find(params[:id])
     @results = @participant.results
     @game = Game.find(params[:game_id])
+    @alternate_nicknames = @participant.alternate_nicknames.map(&:name).join("\n")
     @game.participants.order(score: :desc).group_by(&:score)
   end
 
@@ -35,6 +36,7 @@ class ParticipantsController < ApplicationController
     @participant.twitter = permitted_params[:participant][:twitter]
     @participant.youtube = permitted_params[:participant][:youtube]
     @participant.wiki = permitted_params[:participant][:wiki]
+    generate_alternate_nicknames
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
@@ -42,11 +44,33 @@ class ParticipantsController < ApplicationController
     if !@participant.persisted? || @participant.save 
       redirect_to [@game, @participant]
     else
+      flash[:error] = 'Error editing the player'
       render :edit
     end
   end
 
   private
+
+  def generate_alternate_nicknames
+    entered_alternate_nicks = params[:alternate_nicknames]['to_s'] if params[:alternate_nicknames]
+    former_alternate_nicks = @participant.alternate_nicknames
+    new_nicks = []
+    entered_alternate_nicks.split("\n").each do |nickname|
+      already_his = AlternateNickname.where(game_id: @game.id, participant_id: @participant.id).find_by_name(nickname.strip)
+      someone_else_nick = AlternateNickname.where(game_id: @game.id).find_by_name nickname.strip
+      if already_his
+        new_nicks << already_his
+        next
+      end
+      if someone_else_nick
+        flash[:alert] ||= ''
+        flash[:alert] += "#{nickname.strip} is already taken by #{someone_else_nick.participant.name}"
+        next
+      end
+      new_nicks << AlternateNickname.create(participant_id: @participant.id, name: nickname.strip, game_id: @game.id)
+    end
+    (former_alternate_nicks - new_nicks).map(&:destroy)
+  end
 
   def get_json_for_angular
     rank_method = get_rank_method
