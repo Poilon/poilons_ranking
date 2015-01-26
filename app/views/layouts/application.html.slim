@@ -23,8 +23,7 @@ body
         br
         = link_to 'Logout', destroy_admin_session_path, method: :delete
     - else
-      .text--right.small
+      .text--right.small.soft--right
         = link_to 'Admin Login', new_admin_session_path
   = yield
-
-= render partial: 'layouts/footer'
+= render partial: 'layouts/analytics_footer'
