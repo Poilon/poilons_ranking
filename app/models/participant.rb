@@ -12,6 +12,8 @@ class Participant < ActiveRecord::Base
   end
   after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
   after_validation :reverse_geocode
+  has_many :character_participants
+  has_many :characters, through: :character_participants
 
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
