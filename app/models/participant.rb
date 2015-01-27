@@ -58,6 +58,11 @@ class Participant < ActiveRecord::Base
     game_participants.from_city(country, state, sub_state, city).ranking(score)
   end
 
+  def character_rank(character_name)
+    character = Character.where(game_id: game.id).find_by_slug(character_name)
+    character ? character.participants.ranking(score) : global_rank
+  end
+
   def next_target
     game_participants.where('score > ?', score).order('score asc').first if location
   end
@@ -84,6 +89,10 @@ class Participant < ActiveRecord::Base
 
   def self.ranking(score)
     where('score > ?', score).count + 1
+  end
+
+  def character_names
+    characters.pluck(:name).join("\n")
   end
 
   private

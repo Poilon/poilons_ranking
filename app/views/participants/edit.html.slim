@@ -8,6 +8,9 @@
         = f.input :youtube
         = f.input :wiki
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
+        = f.input :character_names, as: :text, placeholder: "Fox\nPeach\n..."
+        .small
+          = "#{Character.where(game_id: @game.id).pluck(:slug).join(', ')}"
         = f.button :submit
     .grid__item.one-half.text--right
       = "Score: #{@participant.score}"
