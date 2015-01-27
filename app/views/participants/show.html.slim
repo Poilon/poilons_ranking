@@ -20,6 +20,16 @@
 
 
       = 'Location: ' + @participant.location if @participant.location
+
+      - if @participant.characters.count > 0
+        br
+        br
+        => 'He plays: '
+        - CharacterParticipant.where(participant_id: @participant.id).count.times do |rank|
+          - character_slug = CharacterParticipant.where(participant_id: @participant.id).find_by_rank(rank + 1).character.slug
+          => link_to image_tag("#{@game.slug}/#{character_slug}.png"), game_participants_path(@game, character: character_slug)
+
+
     .grid__item.one-half.text--right
       = "Score: #{@participant.score}"
       br
