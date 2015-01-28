@@ -23,8 +23,8 @@
             %a{:"ng-href" => "/games/{{participant.game_slug}}/participants/{{participant.slug}}"}
               {{ participant.name }}
             
-            -#%a{:"ng-if" => "participant.character1", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character1}}"}
-            -#  %img{alt: "{{participant.character1}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character1}}.png", width: 15}
+            %a{:"ng-if" => "participant.character1_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character1_slug}}"}
+              %img{alt: "{{participant.character1_slug}}", :"ng-src" => "{{participant.character1_img}}", width: 15}
             -#
             -#%a{:"ng-if" => "participant.character2", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character2}}"}
             -#  %img{alt: "{{participant.character2}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character2}}.png", width: 15}

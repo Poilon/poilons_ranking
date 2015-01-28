@@ -1,7 +1,6 @@
 class ParticipantsController < ApplicationController
   before_filter :authenticate_admin!, only: [:edit, :update]
 
-
   def index
     @game = Game.find(params[:game_id])
 
@@ -71,7 +70,8 @@ class ParticipantsController < ApplicationController
       participant_json['country_code'] = CountryCodesList.mapping(participant.country)
       participant_json['game_slug'] = game_slug
       participant.characters.count.times do |i|
-        participant_json["character#{i + 1}"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
+        participant_json["character#{i + 1}_slug"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
+        participant_json["character#{i + 1}_img"] = ActionController::Base.helpers.asset_path("#{game_slug}/#{CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug}.png")
       end  
       %w(created_at updated_at score longitude latitude location state sub_state city twitter youtube wiki id).each do |useless_field|
         participant_json.delete(useless_field)
