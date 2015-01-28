@@ -73,7 +73,7 @@ class ParticipantsController < ApplicationController
       participant.characters.count.times do |i|
         participant_json["character#{i + 1}"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
       end  
-      %w(created_at updated_at score longitude latitude location).each do |useless_field|
+      %w(created_at updated_at score longitude latitude location state sub_state city twitter youtube wiki id).each do |useless_field|
         participant_json.delete(useless_field)
       end
       participant_json
