@@ -93,7 +93,7 @@ class Participant < ActiveRecord::Base
   end
 
   def character_names
-    characters.pluck(:name).join("\n")
+    characters.pluck(:slug).join("\n")
   end
 
   private
