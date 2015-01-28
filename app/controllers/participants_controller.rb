@@ -63,18 +63,21 @@ class ParticipantsController < ApplicationController
     rank_method = get_rank_method
     game_slug = @game.slug
     character_name = params[:character]
+    rank = 1
+    character_img_matcher = {}
+    @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
     @participants.order(score: :desc, name: :asc).map do |participant|
-      participant_json = participant.attributes
-      participant_json['rank'] = participant.send(rank_method) unless character_name.present?
-      participant_json['rank'] = participant.character_rank(character_name) if character_name.present?
-      participant_json['country_code'] = CountryCodesList.mapping(participant.country)
+      rank += 1 if @old_score && @old_score > participant.score
+      @old_score = participant.score
+      participant_json = {}
+      participant_json['rank'] = rank
       participant_json['game_slug'] = game_slug
-      participant.characters.count.times do |i|
-        participant_json["character#{i + 1}_slug"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
-        participant_json["character#{i + 1}_img"] = ActionController::Base.helpers.asset_path("#{game_slug}/#{CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug}.png")
-      end  
-      %w(created_at updated_at score longitude latitude location state sub_state city twitter youtube wiki id).each do |useless_field|
-        participant_json.delete(useless_field)
+      %w(country name slug country_code).each do |attribute|
+        participant_json[attribute] = participant.send(attribute.to_sym)
+      end
+      CharacterParticipant.where(participant_id: participant.id).each do |cp|
+        participant_json["character#{cp.rank}_slug"] = cp.character.slug
+        participant_json["character#{cp.rank}_img"] = character_img_matcher[cp.character.slug]
       end
       participant_json
     end unless @participants.blank?
@@ -96,7 +99,8 @@ class ParticipantsController < ApplicationController
 
   def get_participants_regarding_character
     character = @game.characters.find_by_slug(params[:character])
-    if character
+    if character && params[:main]
+      character.participants.joins(:character_participants).where('character_participants.rank = 1').uniq    elsif character
       character.participants
     else
       @game.participants
