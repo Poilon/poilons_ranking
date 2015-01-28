@@ -9,6 +9,7 @@ class ParticipantsController < ApplicationController
       format.html
       format.json do
         @participants = get_participants_regarding_location
+        @participants = get_participants_regarding_character if params[:character]
         json_participants = get_json_for_angular
         render json: json_participants
       end
@@ -37,6 +38,7 @@ class ParticipantsController < ApplicationController
     @participant.youtube = permitted_params[:participant][:youtube]
     @participant.wiki = permitted_params[:participant][:wiki]
     generate_alternate_nicknames
+    add_characters_to_participant
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
@@ -72,18 +74,34 @@ class ParticipantsController < ApplicationController
     (former_alternate_nicks - new_nicks).map(&:destroy)
   end
 
+  def add_characters_to_participant
+    @participant.characters = []
+    rank = 1
+    permitted_params[:participant][:character_names].split("\n").map(&:strip).each do |name|
+      char = Character.where(game_id: @game.id).find_by_slug(name.downcase)
+      CharacterParticipant.create(rank: rank, participant_id: @participant.id, character_id: char.id) unless char.blank?
+      rank += 1
+    end
+  end
+
   def get_json_for_angular
     rank_method = get_rank_method
     game_slug = @game.slug
+    character_name = params[:character]
     @participants.order(score: :desc, name: :asc).map do |participant|
-      participant_json = participant.attributes.merge(rank: participant.send(rank_method))
+      participant_json = participant.attributes
+      participant_json['rank'] = participant.send(rank_method) unless character_name.present?
+      participant_json['rank'] = participant.character_rank(character_name) if character_name.present?
       participant_json['country_code'] = CountryCodesList.mapping(participant.country)
       participant_json['game_slug'] = game_slug
+      participant.characters.count.times do |i|
+        participant_json["character#{i + 1}"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
+      end  
       %w(created_at updated_at score longitude latitude location).each do |useless_field|
         participant_json.delete(useless_field)
       end
       participant_json
-    end
+    end unless @participants.blank?
   end
 
 
@@ -100,13 +118,23 @@ class ParticipantsController < ApplicationController
     participants
   end
 
+  def get_participants_regarding_character
+    character = @game.characters.find_by_slug(params[:character])
+    if character
+      character.participants
+    else
+      @game.participants
+    end
+  end
+
   def permitted_params
     params.permit(participant: [
       :name,
       :location,
       :twitter,
       :youtube,
-      :wiki
+      :wiki,
+      :character_names
     ])
   end
 end

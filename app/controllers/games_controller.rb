@@ -50,8 +50,6 @@ class GamesController < ApplicationController
   def permitted_params
     params.permit(game: [
       :name,
-      :logo,
-      :logo_cache
     ])
   end
 end

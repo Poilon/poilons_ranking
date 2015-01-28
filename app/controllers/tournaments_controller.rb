@@ -49,6 +49,7 @@ class TournamentsController < ApplicationController
     game = Game.find(params[:game_id])
     tournament = Tournament.find(params[:id])
     old_participants = tournament.results.map(&:participant)
+    tournament.name = permitted_params[:tournament][:name]
     tournament.multiplier = permitted_params[:tournament][:multiplier]
     tournament.date = (permitted_params[:tournament]['date(1i)'] + '-' + permitted_params[:tournament]['date(2i)'] + '-' + permitted_params[:tournament]['date(3i)']).to_date
     raw = params[:raw][:to_s]

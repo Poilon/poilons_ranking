@@ -10,8 +10,8 @@
         = f.input :wiki
         = label :alternate_nicknames, 'Alternate nicknames'
         = text_area :alternate_nicknames, :to_s, placeholder: "Armada\n[A]rmada\nARmada\n..."
-
         = f.input :location, input_html: { id: 'gmaps-input-address', autocomplete: 'off' }, placeholder: 'Start typing a place...'
+
       .grid__item.one-half.text--right
         = "Score: #{@participant.score}"
         br
@@ -45,6 +45,9 @@
             = link_to player.name + ' ', [:edit, @game, player]
         br
         br
+        = f.input :character_names, as: :text, placeholder: "Fox\nPeach\n..."
+        .small
+          = "#{Character.where(game_id: @game.id).pluck(:slug).join(', ')}"
         = f.button :submit
 
 .soft

@@ -13,6 +13,8 @@ class Participant < ActiveRecord::Base
   end
   after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
   after_validation :reverse_geocode
+  has_many :character_participants
+  has_many :characters, through: :character_participants
 
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
@@ -38,36 +40,39 @@ class Participant < ActiveRecord::Base
   end
 
   def global_rank
-    game_participants.where('score > ?', score).count + 1
+    game_participants.ranking(score)
   end
 
   def country_rank
-    game_participants.where('country = ? and score > ?', country, score).count + 1
+    game_participants.from_country(country).ranking(score)
   end
 
   def state_rank
-    game_participants.where('country = ? and state = ? and score > ?', country, state, score).count + 1
+    game_participants.from_state(country, state).ranking(score)
   end
 
   def sub_state_rank
-    game_participants.where('country = ? and sub_state = ? and state = ? and score > ?', country, sub_state, state, score).count + 1
+    game_participants.from_sub_state(country, state, sub_state).ranking(score)
   end
 
   def city_rank
-    game_participants.where('country = ? and sub_state = ? and state = ? and city = ? and score > ?', country, sub_state, state, city, score).count + 1
+    game_participants.from_city(country, state, sub_state, city).ranking(score)
+  end
+
+  def character_rank(character_name)
+    character = Character.where(game_id: game.id).find_by_slug(character_name)
+    character ? character.participants.ranking(score) : global_rank
   end
 
   def next_target
-    if location
-      game_participants.where('score > ?', score).order('score asc').first
-    end
+    game_participants.where('score > ?', score).order('score asc').first if location
   end
 
   def training_partners
-    return city_buddies if city && city_buddies.count > 0
+    return city_buddies      if city      && city_buddies.count      > 0
     return sub_state_buddies if sub_state && sub_state_buddies.count > 0
-    return state_buddies if state && state_buddies.count > 0
-    return country_buddies if country && country_buddies.count > 0
+    return state_buddies     if state     && state_buddies.count     > 0
+    return country_buddies   if country   && country_buddies.count   > 0
     return world_buddies
   end
 
@@ -83,50 +88,57 @@ class Participant < ActiveRecord::Base
     end
   end
 
+  def self.ranking(score)
+    where('score > ?', score).count + 1
+  end
+
+  def character_names
+    characters.pluck(:name).join("\n")
+  end
+
   private
 
   def city_buddies
-    city_players = game_participants.where('country = ? and sub_state = ? and state = ? and city = ?', country, sub_state, state, city).order('score desc')
-    better = city_players.where('score > ?', score).last(2)
-    tie = city_players.where('name <> ? and score = ?', name, score).sample(2)
-    worst = city_players.where('score < ?', score).first(2)
-
-    tie + better + worst
+    game_participants.from_city(country, state, sub_state, city).get_close_buddies(id, score)
   end
 
   def sub_state_buddies
-    players = game_participants.where('country = ? and sub_state = ? and state = ?', country, sub_state, state).order('score desc')
-    better = players.where('score > ?', score).last(2)
-    tie = players.where('name <> ? and score = ?', name, score).sample(2)
-    worst = players.where('score < ?', score).first(2)
-
-    tie + better + worst
+    game_participants.from_sub_state(country, state, sub_state).get_close_buddies(id, score)
   end
   
   def state_buddies
-    players = game_participants.where('country = ? and state = ?', country, state).order('score desc')
-    better = players.where('score > ?', score).last(2)
-    tie = players.where('name <> ? and score = ?', name, score).sample(2)
-    worst = players.where('score < ?', score).first(2)
-
-    tie + better + worst
+    game_participants.from_state(country, state).get_close_buddies(id, score)
   end
   
   def country_buddies
-    players = game_participants.where('country = ?', country).order('score desc')
-    better = players.where('score > ?', score).last(2)
-    tie = players.where('name <> ? and score = ?', name, score).sample(2)
-    worst = players.where('score < ?', score).first(2)
-
-    tie + better + worst
+    game_participants.from_country(country).get_close_buddies(id, score)
   end
 
   def world_buddies
-    players = game_participants.order('score desc')
-    better = players.where('score > ?', score).last(2)
-    tie = players.where('name <> ? and score = ?', name, score).sample(2)
-    worst = players.where('score < ?', score).first(2)
+    game_participants.get_close_buddies(id, score)
+  end
 
+  def self.from_city(country, state, sub_state, city)
+    where(country: country, state: state, sub_state: sub_state, city: city)
+  end
+
+  def self.from_sub_state(country, state, sub_state)
+    where(country: country, state: state, sub_state: sub_state)
+  end
+
+  def self.from_state(country, state)
+    where(country: country, state: state)
+  end
+
+  def self.from_country(country)
+    where(country: country)
+  end
+
+  def self.get_close_buddies(id, score)
+    ordered_collection = self.order('score desc')
+    better = ordered_collection.where('score > ?', score).last(2)
+    tie = ordered_collection.where('id <> ? and score = ?', id, score).sample(2)
+    worst = ordered_collection.where('score < ?', score).first(2)
     tie + better + worst
   end
 
