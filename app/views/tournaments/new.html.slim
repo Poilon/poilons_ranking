@@ -14,7 +14,7 @@
     = label :raw, 'Tournament results'
     = text_area :raw, :tournament, placeholder: "1. Poilon\n2. Armada\n3. Mango\n4. Dr. PPMD\n..."
 
-    = f.input :multiplier, label: 'Tournament size', collection: [['City/Town', 10], ['Area', 100], ['Country/State', 1000], ['Continent', 10_000], ['World', 100_000]], include_blank: false, input_html: { class: 'one_half' }
+    = f.input :multiplier, label: 'Tournament size', collection: [['City/Town', 100], ['Area', 250], ['Country/State', 2000], ['Continent', 8_000], ['World', 20_000]], include_blank: false, input_html: { class: 'one_half' }
     = f.input :date, as: :date
 
 
