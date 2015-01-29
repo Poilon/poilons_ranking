@@ -24,3 +24,5 @@
 //= require tournaments
 //= require results
 //= require google_places
+//= require underscore
+//= require gmaps/google

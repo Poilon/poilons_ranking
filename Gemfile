@@ -26,6 +26,7 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass'
 gem 'paperclip'
+gem 'underscore-rails'
 
 gem 'devise'
 
@@ -50,6 +51,7 @@ gem 'rails_12factor', group: :production
 # Specific gems
 gem 'challonge-api'
 gem 'geocoder'
+gem 'gmaps4rails'
 gem 'i18n'
 gem 'kaminari'
 gem 'friendly_id'

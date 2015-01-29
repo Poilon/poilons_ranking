@@ -25,6 +25,12 @@ class ParticipantsController < ApplicationController
   def show
     @participant = Participant.find(params[:id])
     @results = @participant.results
+    @participants = Participant.near(@participant)
+    @map_data = Gmaps4rails.build_markers(@participants) do |participant, marker|
+      marker.lat participant.latitude
+      marker.lng participant.longitude
+      marker.title participant.name
+    end
     @game = Game.find(params[:game_id])
   end
 

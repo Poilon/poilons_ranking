@@ -1,7 +1,14 @@
+script src="//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry" type="text/javascript"
+script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' type='text/javascript'
+
+
+
 = render partial: 'menu'
 .soft
   .max-readable-width
     .grid__item.one-half.text--left
+      div style='width: 200px;'
+        div id="map" style='width: 250px; height: 150px;'
       - if @participant.twitter
         => 'Twitter: '
         = link_to @participant.twitter, @participant.twitter_link
@@ -73,5 +80,21 @@
           = link_to "#{result.tournament_score.round(3)}", [@game, result.tournament]          
         .grid__item.three-quarters.text--left>
           = link_to "#{result.rank.ordinalize} @ #{result.tournament.name}", [@game, result.tournament]
-
         
+javascript:
+  handler = Gmaps.build('Google');
+  handler.buildMap({
+      provider: {
+        disableDefaultUI: true
+        // pass in other Google Maps API options here
+      },
+      internal: {
+        id: 'map'
+      }
+    },
+    function(){
+      markers = handler.addMarkers(#{raw @map_data.to_json});
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    }
+  );  
