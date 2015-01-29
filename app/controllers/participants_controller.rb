@@ -64,10 +64,12 @@ class ParticipantsController < ApplicationController
     game_slug = @game.slug
     character_name = params[:character]
     rank = 1
+    global_rank = 1
     character_img_matcher = {}
     @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
     @participants.order(score: :desc, name: :asc).map do |participant|
-      rank += 1 if @old_score && @old_score > participant.score
+      rank = global_rank if @old_score && @old_score > participant.score
+      global_rank += 1
       @old_score = participant.score
       participant_json = {}
       participant_json['rank'] = rank
