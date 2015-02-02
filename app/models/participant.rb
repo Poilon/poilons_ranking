@@ -14,6 +14,7 @@ class Participant < ActiveRecord::Base
   after_validation :reverse_geocode
   has_many :character_participants
   has_many :characters, through: :character_participants
+  after_save :expire_cache
 
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
@@ -100,6 +101,10 @@ class Participant < ActiveRecord::Base
   end
 
   private
+
+  def expire_cache
+    Rails.cache.delete("#{game.id}_participants")
+  end
 
   def city_buddies
     game_participants.from_city(country, state, sub_state, city).get_close_buddies(id, score)
