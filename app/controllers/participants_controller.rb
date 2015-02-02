@@ -7,9 +7,14 @@ class ParticipantsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        json_participants = Rails.cache.fetch("#{@game.id}_participants", expires_in: 1.day) do
-          @participants = get_participants_regarding_location if params[:character].blank?
-          @participants = get_participants_regarding_character if params[:character].present?
+        @participants = get_participants_regarding_location if params[:character].blank? && params[:country].present?
+        @participants = get_participants_regarding_character if params[:character].present?
+        if !@participants
+          json_participants = Rails.cache.fetch("#{@game.id}_participants") do
+            @participants = @game.participants
+            get_json_for_angular
+          end
+        else
           get_json_for_angular
         end
         render json: json_participants
