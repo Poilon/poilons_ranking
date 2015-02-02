@@ -30,13 +30,11 @@ class ParticipantsController < ApplicationController
 
   def update
     @game = Game.find(params[:game_id])
-    
     @participant          = Participant.find(params[:id])
     @participant.location = permitted_params[:participant][:location]
     @participant.twitter  = permitted_params[:participant][:twitter]
     @participant.youtube  = permitted_params[:participant][:youtube]
     @participant.wiki     = permitted_params[:participant][:wiki]
-    
     add_characters_to_participant
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
@@ -80,7 +78,7 @@ class ParticipantsController < ApplicationController
       %w(country name slug country_code).each do |attribute|
         participant_json[attribute] = participant.send(attribute.to_sym)
       end
-      CharacterParticipant.where(participant_id: participant.id).each do |cp|
+      participant.character_participants.each do |cp|
         participant_json["character#{cp.rank}_slug"] = cp.character.slug
         participant_json["character#{cp.rank}_img"] = character_img_matcher[cp.character.slug]
       end
@@ -95,10 +93,10 @@ class ParticipantsController < ApplicationController
     sub_state = params[:sub_state]
     city = params[:city]
     participants = @game.participants
-    participants = participants.where(country: country) if country
-    participants = participants.where(state: state) if state
+    participants = participants.where(country:   country)   if country
+    participants = participants.where(state:     state)     if state
     participants = participants.where(sub_state: sub_state) if sub_state
-    participants = participants.where(city: city) if city
+    participants = participants.where(city:      city)      if city
     participants
   end
 
