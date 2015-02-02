@@ -7,8 +7,8 @@ class ParticipantsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        @participants = get_participants_regarding_location
-        @participants = get_participants_regarding_character if params[:character]
+        @participants = get_participants_regarding_location if params[:character].blank?
+        @participants = get_participants_regarding_character if params[:character].present?
         json_participants = get_json_for_angular
         render json: json_participants
       end
@@ -30,16 +30,19 @@ class ParticipantsController < ApplicationController
 
   def update
     @game = Game.find(params[:game_id])
-    @participant = Participant.find(params[:id])
+    
+    @participant          = Participant.find(params[:id])
     @participant.location = permitted_params[:participant][:location]
-    @participant.twitter = permitted_params[:participant][:twitter]
-    @participant.youtube = permitted_params[:participant][:youtube]
-    @participant.wiki = permitted_params[:participant][:wiki]
+    @participant.twitter  = permitted_params[:participant][:twitter]
+    @participant.youtube  = permitted_params[:participant][:youtube]
+    @participant.wiki     = permitted_params[:participant][:wiki]
+    
     add_characters_to_participant
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
+    
     if !@participant.persisted? || @participant.save 
       redirect_to [@game, @participant]
     else

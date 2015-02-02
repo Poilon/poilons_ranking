@@ -11,7 +11,8 @@ app.controller 'ParticipantsController', ($scope, Participants) ->
     $:""
   $scope.filteredParticipants = ->
     _.filter $scope.participants, (participant) ->
-      participant.name.match($scope.search.$)
+      participant.name.toLowerCase().match($scope.search.$.toLowerCase())
+
   $scope.numberOfPages = ->
     Math.ceil($scope.filteredParticipants().length/$scope.pageSize)
 
