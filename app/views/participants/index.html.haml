@@ -6,7 +6,7 @@
       %div{:"ng-app" => "application", :"ng-controller" => "ParticipantsController"}
         {{ filteredParticipants().length }} Players
         .form-search.form-inline
-          %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a player here...".html_safe}
+          %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a player, a country or a character here...".html_safe}
             %button{:"ng-disabled"=>"currentPage == 0", :"ng-click"=>"currentPage = currentPage - 1"}
               Previous
             {{ currentPage + 1 }}/{{ numberOfPages() }}
@@ -23,19 +23,18 @@
             %a{:"ng-href" => "/games/{{participant.game_slug}}/participants/{{participant.slug}}"}
               {{ participant.name }}
             
-            -#%a{:"ng-if" => "participant.character1", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character1}}"}
-            -#  %img{alt: "{{participant.character1}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character1}}.png", width: 15}
-            -#
-            -#%a{:"ng-if" => "participant.character2", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character2}}"}
-            -#  %img{alt: "{{participant.character2}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character2}}.png", width: 15}
-            -#
-            -#%a{:"ng-if" => "participant.character3", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character3}}"}
-            -#  %img{alt: "{{participant.character3}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character3}}.png", width: 15}
+            %a{:"ng-if" => "participant.character1_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character1_slug}}"}
+              %img{alt: "{{participant.character1_slug}}", :"ng-src" => "{{participant.character1_img}}", width: 15}
 
-            -#%a{:"ng-if" => "participant.character4", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character5}}"}
-            -#  %img{alt: "{{participant.character4}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character4}}.png", width: 15}
+            %a{:"ng-if" => "participant.character2_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character2_slug}}"}
+              %img{alt: "{{participant.character2_slug}}", :"ng-src" => "{{participant.character2_img}}", width: 15}
 
-            -#%a{:"ng-if" => "participant.character5", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character5}}"}
-            -#  %img{alt: "{{participant.character5}}", :"ng-src" => "/assets/{{participant.game_slug}}/{{participant.character5}}.png", width: 15}
+            %a{:"ng-if" => "participant.character3_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character3_slug}}"}
+              %img{alt: "{{participant.character3_slug}}", :"ng-src" => "{{participant.character3_img}}", width: 15}
 
+            %a{:"ng-if" => "participant.character4_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character4_slug}}"}
+              %img{alt: "{{participant.character4_slug}}", :"ng-src" => "{{participant.character4_img}}", width: 15}
+
+            %a{:"ng-if" => "participant.character5_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?character={{participant.character5_slug}}"}
+              %img{alt: "{{participant.character5_slug}}", :"ng-src" => "{{participant.character5_img}}", width: 15}
 

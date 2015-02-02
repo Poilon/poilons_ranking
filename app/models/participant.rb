@@ -96,6 +96,10 @@ class Participant < ActiveRecord::Base
     characters.pluck(:slug).join("\n")
   end
 
+  def country_code
+    CountryCodesList.mapping(country)
+  end
+
   private
 
   def city_buddies

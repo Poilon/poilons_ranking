@@ -1,18 +1,19 @@
 h2.soft.text--center
   = link_to @game.name, [@game, :participants]
-h3.soft.text--center
+
   - if params[:city]
-    = params[:city] + ' Ranking'
+    h3.soft.text--center= params[:city] + ' Ranking'
   - elsif params[:sub_state]
-    = params[:sub_state] + ' Ranking'
+    h3.soft.text--center= params[:sub_state] + ' Ranking'
   - elsif params[:state]
-    = params[:state] + ' Ranking'
+    h3.soft.text--center= params[:state] + ' Ranking'
   - elsif params[:country]
-    = params[:country] + ' Ranking'
+    h3.soft.text--center= params[:country] + ' Ranking'
   - elsif params[:character] && Character.where(game_id: @game.id).find_by_slug(params[:character])
-    = Character.where(game_id: @game.id).find_by_slug(params[:character]).name + ' Ranking'
+    h3.soft--top.text--center=> link_to Character.where(game_id: @game.id).find_by_slug(params[:character]).name + ' Ranking', game_participants_path(@game, character: params[:character])
+    .small.soft--bottom.text--center=> link_to 'Main only ?', game_participants_path(@game, character: params[:character], main: true) unless params[:main]
   - else
-    = 'Global ranking'
+    h3.soft.text--center= 'Global ranking'
 .text--center
   => link_to 'ranking', [@game, :participants], class: selected?('participants', 'index')
   => '|'

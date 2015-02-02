@@ -1,15 +1,14 @@
 class ParticipantsController < ApplicationController
   before_filter :authenticate_admin!, only: [:edit, :update]
 
-
   def index
     @game = Game.find(params[:game_id])
 
     respond_to do |format|
       format.html
       format.json do
-        @participants = get_participants_regarding_location
-        @participants = get_participants_regarding_character if params[:character]
+        @participants = get_participants_regarding_location if params[:character].blank?
+        @participants = get_participants_regarding_character if params[:character].present?
         json_participants = get_json_for_angular
         render json: json_participants
       end
@@ -32,17 +31,18 @@ class ParticipantsController < ApplicationController
 
   def update
     @game = Game.find(params[:game_id])
-    @participant = Participant.find(params[:id])
+    @participant          = Participant.find(params[:id])
     @participant.location = permitted_params[:participant][:location]
-    @participant.twitter = permitted_params[:participant][:twitter]
-    @participant.youtube = permitted_params[:participant][:youtube]
-    @participant.wiki = permitted_params[:participant][:wiki]
+    @participant.twitter  = permitted_params[:participant][:twitter]
+    @participant.youtube  = permitted_params[:participant][:youtube]
+    @participant.wiki     = permitted_params[:participant][:wiki]
     generate_alternate_nicknames
     add_characters_to_participant
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
+    
     if !@participant.persisted? || @participant.save 
       redirect_to [@game, @participant]
     else
@@ -88,17 +88,23 @@ class ParticipantsController < ApplicationController
     rank_method = get_rank_method
     game_slug = @game.slug
     character_name = params[:character]
+    rank = 1
+    global_rank = 1
+    character_img_matcher = {}
+    @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
     @participants.order(score: :desc, name: :asc).map do |participant|
-      participant_json = participant.attributes
-      participant_json['rank'] = participant.send(rank_method) unless character_name.present?
-      participant_json['rank'] = participant.character_rank(character_name) if character_name.present?
-      participant_json['country_code'] = CountryCodesList.mapping(participant.country)
+      rank = global_rank if @old_score && @old_score > participant.score
+      global_rank += 1
+      @old_score = participant.score
+      participant_json = {}
+      participant_json['rank'] = rank
       participant_json['game_slug'] = game_slug
-      participant.characters.count.times do |i|
-        participant_json["character#{i + 1}"] = CharacterParticipant.where(participant_id: participant.id).find_by_rank(i + 1).character.slug
-      end  
-      %w(created_at updated_at score longitude latitude location).each do |useless_field|
-        participant_json.delete(useless_field)
+      %w(country name slug country_code).each do |attribute|
+        participant_json[attribute] = participant.send(attribute.to_sym)
+      end
+      participant.character_participants.each do |cp|
+        participant_json["character#{cp.rank}_slug"] = cp.character.slug
+        participant_json["character#{cp.rank}_img"] = character_img_matcher[cp.character.slug]
       end
       participant_json
     end unless @participants.blank?
@@ -111,16 +117,17 @@ class ParticipantsController < ApplicationController
     sub_state = params[:sub_state]
     city = params[:city]
     participants = @game.participants
-    participants = participants.where(country: country) if country
-    participants = participants.where(state: state) if state
+    participants = participants.where(country:   country)   if country
+    participants = participants.where(state:     state)     if state
     participants = participants.where(sub_state: sub_state) if sub_state
-    participants = participants.where(city: city) if city
+    participants = participants.where(city:      city)      if city
     participants
   end
 
   def get_participants_regarding_character
     character = @game.characters.find_by_slug(params[:character])
-    if character
+    if character && params[:main]
+      character.participants.joins(:character_participants).where('character_participants.rank = 1').uniq    elsif character
       character.participants
     else
       @game.participants
