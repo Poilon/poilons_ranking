@@ -6,7 +6,7 @@
       %div{:"ng-app" => "application", :"ng-controller" => "ParticipantsController"}
         {{ filteredParticipants().length }} Players
         .form-search.form-inline
-          %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a player here...".html_safe}
+          %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a player, a country or a character here...".html_safe}
             %button{:"ng-disabled"=>"currentPage == 0", :"ng-click"=>"currentPage = currentPage - 1"}
               Previous
             {{ currentPage + 1 }}/{{ numberOfPages() }}
