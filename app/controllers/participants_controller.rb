@@ -9,13 +9,13 @@ class ParticipantsController < ApplicationController
       format.json do
         @participants = get_participants_regarding_location if params[:character].blank? && params[:country].present?
         @participants = get_participants_regarding_character if params[:character].present?
-        if !@participants
+        if @participants.blank?
           json_participants = Rails.cache.fetch("#{@game.id}_participants") do
             @participants = @game.participants
             get_json_for_angular
           end
         else
-          get_json_for_angular
+          json_participants = get_json_for_angular
         end
         render json: json_participants
       end
