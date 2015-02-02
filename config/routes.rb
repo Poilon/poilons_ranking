@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get :compute
     end
+    resources :statistics
     resources :tournaments
     resources :participants
   end

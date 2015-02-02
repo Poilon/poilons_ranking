@@ -1,0 +1,17 @@
+= render partial: 'games/menu'
+
+.max-readable-width
+  .soft.text--center
+    h4.soft= 'Percentage of character players'
+    table.simple-style
+      thead
+        tr
+          th= t('Character')
+          th= t('Percentage of play')
+          th= t('Best player')
+      - @character_stats.compact.sort_by{|c| c[1]}.reverse.each do |c|
+        tbody
+          tr
+            td= c[0]
+            td= "#{c[1]} %"
+            td= c[2]

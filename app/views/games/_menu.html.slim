@@ -12,9 +12,9 @@ h2.soft.text--center
   - elsif params[:character] && Character.where(game_id: @game.id).find_by_slug(params[:character])
     h3.soft--top.text--center=> link_to Character.where(game_id: @game.id).find_by_slug(params[:character]).name + ' Ranking', game_participants_path(@game, character: params[:character])
     .small.soft--bottom.text--center=> link_to 'Main only ?', game_participants_path(@game, character: params[:character], main: true) unless params[:main]
-  - else
-    h3.soft.text--center= 'Global ranking'
 .text--center
-  => link_to 'ranking', [@game, :participants], class: selected?('participants', 'index')
+  => link_to 'ranking', [@game, :participants, params.to_hash], class: selected?('participants', 'index')
   => '|'
-  => link_to 'tournaments', [@game, :tournaments], class: selected?('tournaments', 'index')
+  => link_to 'tournaments', [@game, :tournaments, params.to_hash], class: selected?('tournaments', 'index')
+  => '|'
+  => link_to 'statisitcs', [@game, :statistics, params.to_hash], class: selected?('statistics', 'index')
