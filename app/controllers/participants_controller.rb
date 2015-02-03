@@ -7,8 +7,13 @@ class ParticipantsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        @participants = get_participants_regarding_location if params[:character].blank? && params[:country].present?
-        @participants = get_participants_regarding_character if params[:character].present?
+        if params[:team].present?
+          @participants = get_participants_regarding_team
+        elsif params[:character].present?
+          @participants = get_participants_regarding_character
+        elsif params[:country].present?
+          @participants = get_participants_regarding_location
+        end
         if @participants.blank?
           json_participants = Rails.cache.fetch("#{@game.id}_participants") do
             @participants = @game.participants
@@ -74,6 +79,7 @@ class ParticipantsController < ApplicationController
     rank = 1
     global_rank = 1
     character_img_matcher = {}
+    team_img_matcher = {}
     @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
     @participants.order(score: :desc, name: :asc).map do |participant|
       rank = global_rank if @old_score && @old_score > participant.score
@@ -88,6 +94,10 @@ class ParticipantsController < ApplicationController
       participant.character_participants.each do |cp|
         participant_json["character#{cp.rank}_slug"] = cp.character.slug
         participant_json["character#{cp.rank}_img"] = character_img_matcher[cp.character.slug]
+      end
+      participant.teams.each_with_index do |team, i|
+        participant_json["team#{i + 1}_slug"] = team.slug
+        participant_json["team#{i + 1}_name"] = team.name
       end
       participant_json
     end unless @participants.blank?
@@ -110,11 +120,15 @@ class ParticipantsController < ApplicationController
   def get_participants_regarding_character
     character = @game.characters.find_by_slug(params[:character])
     if character && params[:main]
-      character.participants.joins(:character_participants).where('character_participants.rank = 1').uniq    elsif character
-      character.participants
+      character.participants.joins(:character_participants).where('character_participants.rank = 1').uniq
     else
-      @game.participants
+      character ? character.participants : nil
     end
+  end
+
+  def get_participants_regarding_team
+    team = @game.teams.find_by_slug(params[:team])
+    team ? team.participants : nil
   end
 
   def permitted_params

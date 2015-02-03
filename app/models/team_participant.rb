@@ -1,6 +1,6 @@
-class CharacterParticipant < ActiveRecord::Base
+class TeamParticipant < ActiveRecord::Base
+  belongs_to :team
   belongs_to :participant
-  belongs_to :character
   after_save :expire_cache
   after_create :expire_cache
   after_destroy :expire_cache

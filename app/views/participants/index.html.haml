@@ -20,6 +20,11 @@
             %a{:'ng-href' => '/games/{{participant.game_slug}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}', style: 'padding-top:2px;'}
               &nbsp&nbsp&nbsp
             &nbsp
+
+            %a{:"ng-if" => "participant.team1_slug", :"ng-href" => "/games/{{participant.game_slug}}/participants?team={{participant.team1_slug}}"}
+              {{participant.team1_name}}
+            %icon{:"ng-if" => "participant.team1_slug"}
+              |
             %a{:"ng-href" => "/games/{{participant.game_slug}}/participants/{{participant.slug}}"}
               {{ participant.name }}
             
