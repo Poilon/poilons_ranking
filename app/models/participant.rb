@@ -79,7 +79,6 @@ class Participant < ActiveRecord::Base
 
   def self.clean
     where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
-    Result.where(rank: nil).map{|e| e.update_attribute(:rank, 1000)}
   end
 
   def merge_process
