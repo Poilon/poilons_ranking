@@ -18,9 +18,11 @@ class Tournament < ActiveRecord::Base
       rank = line.strip.scan(/^\d*/).first      
       name = line.gsub(/^\d*./, '').strip
       participant = Participant.find_by(name: name, game_id: game.id)
-      participant = Participant.create(name: name, game_id: game.id) unless participant
-      Result.create(participant_id: participant.id, tournament_id: id, rank: rank)
-      participant.compute_score
+      unless name.blank?
+        participant = Participant.create(name: name, game_id: game.id) unless participant
+        Result.create(participant_id: participant.id, tournament_id: id, rank: rank)
+        participant.compute_score
+      end
     end
   end
 

@@ -37,14 +37,6 @@ class GamesController < ApplicationController
     end
   end
 
-  def compute
-    @game = Game.find(params[:id])
-    Participant.clean
-    @participants = @game.participants
-    @participants.map(&:compute_score)
-    redirect_to [@game, :participants]
-  end
-
   private
 
   def permitted_params

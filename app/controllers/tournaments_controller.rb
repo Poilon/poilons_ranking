@@ -20,8 +20,9 @@ class TournamentsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
     challonge_import if permitted_params[:api_key].present? && permitted_params[:user_name].present?
+    Rails.cache.delete("#{@game.id}_participants")
     if params[:raw]
-      raw_import 
+      raw_import
     else
       redirect_to [@game, :tournaments]
     end
@@ -66,6 +67,7 @@ class TournamentsController < ApplicationController
         old_participants.map(&:compute_score)
       end
       Participant.clean
+      Rails.cache.delete("#{@game.id}_participants")
       redirect_to [game, tournament]
     else
       render :edit

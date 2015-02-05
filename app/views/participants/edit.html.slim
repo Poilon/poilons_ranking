@@ -11,6 +11,8 @@
         = f.input :character_names, as: :text, placeholder: "Fox\nPeach\n..."
         .small
           = "#{Character.where(game_id: @game.id).pluck(:slug).join(', ')}"
+        = f.input :team_names, as: :text, placeholder: "EG\nCurse\nLiquid`"
+  
         = f.button :submit
     .grid__item.one-half.text--right
       = "Score: #{@participant.score}"
@@ -18,28 +20,28 @@
       br
       - link = 'Global rank: ' + @participant.global_rank.ordinalize
       = link_to link, game_participants_path(@game)
-      br
       - if @participant.country
+        br
         - link = @participant.country + ' rank: ' + @participant.country_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country)
-      br
       - if @participant.state
+        br
         - link = @participant.state + ' rank: ' + @participant.state_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state)
-      br
       - if @participant.sub_state
+        br
         - link = @participant.sub_state + ' rank: ' + @participant.sub_state_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state)
-      br
       - if @participant.city
+        br
         - link = @participant.city + ' rank: ' + @participant.city_rank.ordinalize
         = link_to link, game_participants_path(@game, country: @participant.country, state: @participant.state, sub_state: @participant.sub_state, city: @participant.city)
-      br
       - if next_target = @participant.next_target
+        br
         = "#{@participant.name}'s next target is "
         = link_to next_target.name, [:edit, @game, next_target]
-      br
       - if training_partners = @participant.training_partners
+        br
         = 'He should train with '
         - training_partners.each do |player|
           = link_to player.name + ' ', [:edit, @game, player]

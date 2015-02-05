@@ -48,12 +48,14 @@ class ParticipantsController < ApplicationController
     @participant.youtube  = permitted_params[:participant][:youtube]
     @participant.wiki     = permitted_params[:participant][:wiki]
     add_characters_to_participant
+    add_teams_to_participant
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     
     if !@participant.persisted? || @participant.save 
+      Rails.cache.delete("#{@game.id}_participants")
       redirect_to [@game, @participant]
     else
       render :edit
@@ -61,6 +63,16 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
+  def add_teams_to_participant
+    @participant.teams = []
+    permitted_params[:participant][:team_names].split("\n").map(&:strip).each do |name|
+      unless team = Team.where(game_id: @game.id).find_by_slug(name.parameterize)
+        team = Team.create(game_id: @game.id, name: name)
+      end
+      @participant.teams << team
+    end
+  end
 
   def add_characters_to_participant
     @participant.characters = []
@@ -138,7 +150,8 @@ class ParticipantsController < ApplicationController
       :twitter,
       :youtube,
       :wiki,
-      :character_names
+      :character_names,
+      :team_names
     ])
   end
 end

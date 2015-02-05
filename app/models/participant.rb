@@ -16,8 +16,6 @@ class Participant < ActiveRecord::Base
   has_many :characters, through: :character_participants
   has_many :team_participants, dependent: :destroy
   has_many :teams, through: :team_participants
-  after_save :expire_cache
-  after_destroy :expire_cache
 
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
@@ -81,6 +79,7 @@ class Participant < ActiveRecord::Base
 
   def self.clean
     where('id not in (select distinct(participant_id) FROM results)').map(&:destroy)
+    Result.where(rank: nil).map{|e| e.update_attribute(:rank, 1000)}
   end
 
   def merge_process
@@ -99,15 +98,15 @@ class Participant < ActiveRecord::Base
     characters.pluck(:slug).join("\n")
   end
 
+  def team_names
+    teams.pluck(:name).join("\n")
+  end
+
   def country_code
     CountryCodesList.mapping(country)
   end
 
   private
-
-  def expire_cache
-    Rails.cache.delete("#{game.id}_participants")
-  end
 
   def city_buddies
     game_participants.from_city(country, state, sub_state, city).get_close_buddies(id, score)
