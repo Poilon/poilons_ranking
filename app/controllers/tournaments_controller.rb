@@ -67,7 +67,7 @@ class TournamentsController < ApplicationController
         old_participants.map(&:compute_score)
       end
       Participant.clean
-      Rails.cache.delete("#{@game.id}_participants")
+      Rails.cache.delete("#{game.id}_participants")
       redirect_to [game, tournament]
     else
       render :edit

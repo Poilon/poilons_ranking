@@ -2,24 +2,30 @@
 .soft
   .max-readable-width
     .grid__item.one-half.text--left
-      - if @participant.twitter
+      - unless @participant.twitter.blank?
         => 'Twitter: '
         = link_to @participant.twitter, @participant.twitter_link
         br
         br
-      - if @participant.youtube
+      - unless @participant.youtube.blank?
         => 'Youtube: '
         = link_to @participant.youtube, "http://www.youtube.com/#{@participant.youtube}"
         br
         br
-      - if @participant.wiki
+      - unless @participant.wiki.blank?
         => 'Wiki: '
         = link_to @participant.wiki, "http://wiki.teamliquid.net/smash/#{@participant.wiki}"
         br
         br
 
+      - unless @participant.team_names.blank?
+        => 'Teams: '
+        - @participant.teams.each do |team|
+          => link_to team.name, game_participants_path(@game, team: team)
+        br
+        br
 
-      = 'Location: ' + @participant.location if @participant.location
+      = 'Location: ' + @participant.location unless @participant.location.blank?
 
       - if @participant.characters.count > 0
         br
