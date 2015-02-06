@@ -1,4 +1,12 @@
 class CountryCodesList
+  def self.europe
+    ['France', 'Germany', 'Switzerland', 'Andorra', 'Albania', 'Austria', 'Bosnia and Herzegovina',
+    'Belgium', 'Bulgaria', 'Czech Republic', 'Denmark', 'Estonia', 'Spain', 'Finland', 'United Kingdom',
+    'Guernsey', 'Gibraltar', 'Greece', 'Croatia', 'Hungary', 'Ireland', 'Iceland', 'Italy', 'Jersey',
+     'Liechtenstein', 'Lithuania', 'Luxembourg', 'Poland', 'Portugal', 'Romania', 'Serbia', 'Sweden', 
+     'Slovenia', 'Slovakia', 'Norway', 'Ukraine']
+  end
+
   def self.mapping(country)
     @countrycodes ||= {
       "Andorra" => "AD",

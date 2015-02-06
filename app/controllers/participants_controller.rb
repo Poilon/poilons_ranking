@@ -117,6 +117,7 @@ class ParticipantsController < ApplicationController
 
 
   def get_participants_regarding_location
+    return @game.participants.where(country: CountryCodesList.europe) if params[:country] == 'Europe'
     country = params[:country]
     state = params[:state]
     sub_state = params[:sub_state]
