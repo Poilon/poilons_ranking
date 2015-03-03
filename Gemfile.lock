@@ -125,6 +125,8 @@ GEM
     kgio (2.9.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    materialize-sass (0.95.2)
+      sass (~> 3.1)
     method_source (0.8.2)
     mime-types (2.4.3)
     minitest (5.4.3)
@@ -243,6 +245,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   kaminari
+  materialize-sass
   paperclip
   pg
   pry

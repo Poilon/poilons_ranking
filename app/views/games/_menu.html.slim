@@ -1,23 +1,29 @@
+.index-header
+  = render partial: 'layouts/admin'
 h2.soft.text--center
-  = link_to @game.name, [@game, :participants]
+  = link_to image_tag(@game.name.parameterize.underscore + '_circle.png', size: '170x170', alt: @game.name), [@game, :participants]
+  br
+  h4.soft.text--center
+    .heavy-font style='padding-bottom: 10px;'
+      = link_to @game.name.upcase, [@game, :participants]
+  
+    - if params[:city]
+      = params[:city] + ' Ranking'
+    - elsif params[:sub_state]
+      = params[:sub_state] + ' Ranking'
+    - elsif params[:state]
+      = params[:state] + ' Ranking'
+    - elsif params[:country]
+      = params[:country] + ' Ranking'
+      .small.soft--bottom.text--center=> link_to 'Whole Europe ?', game_participants_path(@game, country: 'Europe') if CountryCodesList.europe.include?(params[:country])
 
-  - if params[:city]
-    h3.soft.text--center= params[:city] + ' Ranking'
-  - elsif params[:sub_state]
-    h3.soft.text--center= params[:sub_state] + ' Ranking'
-  - elsif params[:state]
-    h3.soft.text--center= params[:state] + ' Ranking'
-  - elsif params[:country]
-    h3.soft.text--center= params[:country] + ' Ranking'
-    .small.soft--bottom.text--center=> link_to 'Whole Europe ?', game_participants_path(@game, country: 'Europe') if CountryCodesList.europe.include?(params[:country])
-
-  - elsif params[:character] && Character.where(game_id: @game.id).find_by_slug(params[:character])
-    h3.soft--top.text--center=> link_to Character.where(game_id: @game.id).find_by_slug(params[:character]).name + ' Ranking', game_participants_path(@game, character: params[:character])
-    .small.soft--bottom.text--center=> link_to 'Main only ?', game_participants_path(@game, character: params[:character], main: true) unless params[:main]
-  - elsif params[:team] && Team.where(game_id: @game.id).find_by_slug(params[:team])
-    h3.soft--top.text--center=> link_to Team.where(game_id: @game.id).find_by_slug(params[:team]).name + ' Ranking', game_participants_path(@game, team: params[:team])
-  - else
-    h3.soft.text--center= 'Global ranking'
+    - elsif params[:character] && Character.where(game_id: @game.id).find_by_slug(params[:character])
+      => link_to Character.where(game_id: @game.id).find_by_slug(params[:character]).name + ' Ranking', game_participants_path(@game, character: params[:character])
+      .small.soft--bottom.text--center=> link_to 'Main only ?', game_participants_path(@game, character: params[:character], main: true) unless params[:main]
+    - elsif params[:team] && Team.where(game_id: @game.id).find_by_slug(params[:team])
+      => link_to Team.where(game_id: @game.id).find_by_slug(params[:team]).name + ' Ranking', game_participants_path(@game, team: params[:team])
+    - else
+      = 'GLOBAL RANKING'
 .text--center
   => link_to 'ranking', [@game, :participants], class: selected?('participants', 'index')
   => '|'

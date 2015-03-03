@@ -16,14 +16,5 @@ body
     - if alert
       p class='alert'
         = alert
-    h1.text--center.soft= link_to 'Poilon\'s Ranking Beta Version', root_path
-    - if current_admin.present?
-      .text--center.soft.green
-        = link_to "Logged as #{current_admin.email}"
-        br
-        = link_to 'Logout', destroy_admin_session_path, method: :delete
-    - else
-      .text--right.small.soft--right
-        = link_to 'Admin Login', new_admin_session_path
   = yield
 = render partial: 'layouts/analytics_footer'

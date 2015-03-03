@@ -1,4 +1,14 @@
-.max-readable-width
+.home-header
+  = render partial: 'layouts/admin'
+  .text--center
+    br
+    br
+    br
+    br
+    = link_to image_tag('logo.png'), root_path
+
+
+.max-readable-width style="margin-top: 120px;"
   .grid
     - @games.order(:created_at).each do |game|
       .grid__item.one-third.text--center.soft--top

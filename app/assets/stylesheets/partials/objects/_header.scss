@@ -3,20 +3,24 @@
   text-decoration: underline;
 }
 .header-site {
-  background-color: $headerColor;
+  background-color: #e3dfe2;
   color: white;
 
   .header-title {
-    font-weight: 300;
+    font-family: 'museo', sans-serif;
+    text-transform: uppercase;
     line-height: 45px;
-    float: left;
-    font-size: 25px;
+    font-size: 35px;
     display: block;
     margin-left: 10px;
   }
 
+  .homepage-image {
+    background-image: url(asset-path('home_image.png'));
+  }
+
   a {
-    color: $link_color;
+    color: white;
     &:hover {
       color: $link_hover;
       text-decoration: none;

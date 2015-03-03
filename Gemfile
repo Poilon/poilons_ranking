@@ -26,6 +26,7 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass'
 gem 'paperclip'
+gem 'materialize-sass'
 
 gem 'devise'
 

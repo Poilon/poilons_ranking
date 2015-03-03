@@ -8,6 +8,12 @@ input, textarea {
   @extend .push--bottom;
 }
 
+.rounded-input {
+  border-radius: 50px;
+  border: 1px solid #CFCACA;
+  width: 350px;
+}
+
 .new_user {
   text-align: center;
 }
