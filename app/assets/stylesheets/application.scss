@@ -3,25 +3,33 @@
 
 /* Libs */
 @import 'partials/libs/inuit';
+@import 'materialize';
 @import 'font-awesome';
-@import 'jquery-ui';
 @import 'partials/libs/csswizardry-grids';
 @import 'partials/libs/card';
-
-/* Base */
-@import 'partials/base/headings';
-@import 'partials/base/footer';
-@import 'partials/base/main';
-@import 'partials/base/forms';
-@import 'partials/base/links';
-@import 'partials/base/tables';
-@import 'partials/base/container';
+@import 'partials/libs/editor';
+@import 'partials/libs/codemirror';
+@import 'partials/libs/jquery.markdownify';
+@import 'partials/libs/slidebars';
 
 /* Generic */
 @import 'partials/generic/helpers';
 @import 'partials/generic/mixins';
 
+/* Base */
+@import 'partials/base/headings';
+@import 'partials/base/main';
+@import 'partials/base/colors';
+@import 'partials/base/forms';
+@import 'partials/base/links';
+@import 'partials/base/tables';
+@import 'partials/base/container';
+@import 'partials/base/sizes';
+
 /* Objects */
+@import 'partials/objects/header';
+@import 'partials/objects/footer';
+@import 'partials/objects/menu';
 @import 'partials/objects/landing';
 @import 'partials/objects/user';
 @import 'partials/objects/header';
@@ -33,24 +41,7 @@
 @import 'partials/objects/boxes';
 @import 'partials/objects/explanation';
 @import 'partials/objects/responsivevideo';
-
-@import 'world_flags/flags16';
-
-
-.tutorial{
-  img{
-    display: block;
-    margin: 0 auto;
-  }
-}
-
-.ical_icon {
-  display: block;
-  margin: 10px auto;
-}
-
-.game-img{
-  img{
-    box-shadow: 0 3px 6px rgba(0,0,0,0.9);
-  }
-}
+@import 'partials/objects/box-list-item';
+@import 'partials/objects/markdowned';
+@import 'partials/objects/tags';
+@import 'test'

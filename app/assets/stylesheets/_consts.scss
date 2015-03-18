@@ -3,15 +3,17 @@
 $footer-height                        : 30px;
 /* Colors */
 
-$headerColor                          : #333;
+$light_grey                           : #eceef4;
+
+$headerColor                          : #121920;
 $background_card_blue                 : #38a0bb;
-$link_color                           : #565552;
+$link_color                           : darken($light_grey, 20%);
 $dark_link_color                      : darken(#38a0bb, 30%);
 $link_hover                           : lighten($link_color, 4%);
 $body_blue                            : #215F6E;
 $body_white                           : #f9f4ef;
 $input_background                     : #cccccc;
-$header_selected                      : #a3e7f8;
+$header_selected                      : lighten($light_grey, 10%);
 /* Calendar */
 $calendar_day_default_background      : #346E7A;
 $calendar_day_font_color              : #28A3B3;
@@ -20,13 +22,20 @@ $calendar_past_day_background         : #9DBAC2;
 $calendar_selected_day_background     : #3399CC;
 $calendar_selected_day_color          : #1D6070;
 
-$green                                : #24CB61;
-$flashy_green                             : #05D713;
+$my_green                                : #24CB61;
+$my_red                                  : #d83a39;
+$my_blue                                 : #38a0bb;
+$my_yellow                               : #FFE890;
+
+$primary-color                        : #121920;
 
 /* Alerts */
-$alert_success                        : $green;
-$alert_eror                           : #d83a39;
+$alert_success                        : $my_green;
+$alert_error                          : $my_red;
+$alert_warning                        : $my_yellow;
 
 
 /* Borders */
 $border_blue                          : lighten($body_blue, 4%);
+$input-border-color                   : $primary-color;
+$input-focus-color                    : $my_blue;

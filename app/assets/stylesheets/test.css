@@ -1,0 +1,4 @@
+.homepage-image {
+  background-image: url(asset-path('header.png'));
+  height: 100%;
+}

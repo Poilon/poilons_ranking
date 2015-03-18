@@ -1,6 +1,5 @@
 .landing {
   .pitch-container {
-    background-image: url(asset-path('homepage/landing-image-2.jpg'));
     background-size: cover;
     width: 100%;
     height: 450px;
@@ -43,26 +42,8 @@
   }
 }
 
-.hp {
-  font-family: "Open Sans";
-  letter-spacing: 0.01rem;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 1.5;
-//  p {
-//    text-indent: 20px;
-//  }
-  h2, h3 {
-    margin-bottom: 20px;
-  }
-//  h2, h3 {
-//    text-align: center;
-//  }
-}
-
-.homepage-image {
-  background-image: url(https://res.cloudinary.com/milesrock/image/upload/b_rgb:000,e_tilt_shift/v1402314978/cathedrale-horloge_l9ybrq.jpg);
+.background--image-splash {
+  background-image: url(asset-path('photo-home-colors.jpg'));
 }
 
 .cover-bg {
@@ -97,5 +78,4 @@
   @media only screen and (max-width: 1024px) {
     font-size: 17px !important;
   }
-  color: white;
 }

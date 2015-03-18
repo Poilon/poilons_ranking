@@ -151,6 +151,28 @@ class Participant < ActiveRecord::Base
     tie + better + worst
   end
 
+  def self.filter_by_params(params)
+    game = Game.find(params[:game_id])
+    participants = Participant.where(game_id: game.id)
+
+    if (character = game.characters.find_by_slug(params[:character]))
+      participants = participants.joins(:characters).where(characters: {id: character.id})
+      participants = participants.joins(:character_participants).where(character_participants: {rank: 1}).uniq if params[:main]
+    end
+    if params[:country] == 'Europe'
+      participants = participants.where(country: CountryCodesList.europe) if params[:country] == 'Europe'
+    else
+      participants = participants.where(country: params[:country]) if params[:country]
+      participants = participants.where(state: params[:state]) if params[:state]
+      participants = participants.where(sub_state: params[:sub_state]) if params[:sub_state]
+      participants = participants.where(city: params[:city]) if params[:city]
+    end
+    if (team = game.teams.find_by_slug(params[:team]))
+      participants = participants.joins(:teams).where(teams: {id: team.id})
+    end
+    participants
+  end
+
   def game_participants
     Participant.where(game_id: game.id)
   end

@@ -1,4 +1,4 @@
-.notice, .alert {
+.notice, .alert, .warning {
   text-align: center;
   padding: 10px;
 }
@@ -9,8 +9,12 @@
 }
 
 .alert, .error, .errors {
-  background-color: $alert_eror !important;
+  background-color: $alert_error !important;
   color: white;
+}
+
+.warning {
+  background-color: $alert_warning !important;
 }
 
 span.error, .errors {
@@ -21,5 +25,5 @@ span.error {
   display: block;
   margin-top: -22px;
   margin-bottom: 22px ;
-  background-color: $alert_eror;
+  background-color: $alert_error;
 }

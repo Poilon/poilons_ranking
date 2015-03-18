@@ -1,18 +1,12 @@
-.home-header
-  = render partial: 'layouts/admin'
-  .text--center
-    br
-    br
-    br
-    br
-    = link_to image_tag('logo.png'), root_path
+-#= render partial: 'layouts/admin'
 
-
-.max-readable-width style="margin-top: 120px;"
+.homepage-image
+.max-readable-width
   .grid
     - @games.order(:created_at).each do |game|
-      .grid__item.one-third.text--center.soft--top
-        = link_to image_tag(game.name.parameterize.underscore + '.jpg', size: '140x180', alt: game.name), [game, :participants]
+        .grid__item.one-third.text--center.soft--top
+            = link_to image_tag(game.name.parameterize.underscore + '.jpg', size: '140x180', alt: game.name), [game, :participants]
+
 
 
 = render partial: 'layouts/footer'

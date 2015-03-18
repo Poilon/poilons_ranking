@@ -1,0 +1,12 @@
+.box-list-item {
+  display: block;
+  border-bottom: 1px solid $light_grey;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+
+a.box-list-item:hover {
+  background-color: #f9f9fb;
+}

@@ -1,6 +1,5 @@
-class TournamentsController < ApplicationController
+class TournamentsController < ActionController::Base
   before_filter :authenticate_admin!, only: [:edit, :update]
-  rescue_from ActiveResource::UnauthorizedAccess, with: :access_denied
 
   def index
     @game = Game.find(params[:game_id])

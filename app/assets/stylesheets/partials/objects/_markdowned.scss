@@ -1,0 +1,28 @@
+.markdowned-element{
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: normal;
+    font-weight: 300;
+    margin     : 0;
+  }
+
+  h1 {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  h2 {
+    width: 100%;
+    height: inherit;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: left;
+    background-color: inherit;
+  }
+
+  h3 {
+    width: 100%;
+    font-weight: bold;
+  }
+
+}

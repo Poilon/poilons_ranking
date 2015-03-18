@@ -1,30 +1,40 @@
-.selected {
-  color: $header_selected;
-  text-decoration: underline;
+nav, footer {
+  a {
+    color: $link_color !important;
+    &:hover {
+      color: $link_hover !important;
+      text-decoration: none;
+    }
+
+    &.selected {
+      color: $header_selected !important;
+    }
+  }
 }
+
+.side-nav {
+  color: invert($link_color) !important;
+  &:hover {
+    color: invert($link_hover) !important;
+    text-decoration: none;
+  }
+  a.selected {
+    color: invert($header_selected) !important;
+  }
+}
+
 .header-site {
-  background-color: #e3dfe2;
+  width: 100%;
+  background-color: $headerColor;
   color: white;
 
   .header-title {
-    font-family: 'museo', sans-serif;
-    text-transform: uppercase;
+    font-weight: 300;
     line-height: 45px;
-    font-size: 35px;
+    float: left;
+    font-size: 25px;
     display: block;
     margin-left: 10px;
-  }
-
-  .homepage-image {
-    background-image: url(asset-path('home_image.png'));
-  }
-
-  a {
-    color: white;
-    &:hover {
-      color: $link_hover;
-      text-decoration: none;
-    }
   }
 
   nav{
@@ -70,3 +80,48 @@
   }
 }
 
+.header {
+  transition: all 0.3s;
+  position: relative;
+  z-index: 10000;
+}
+
+.stuck {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  @media only screen and (min-width: 1024px) {
+    opacity: 0.9;
+  }
+}
+
+.sticky-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+@include media-query-portable() {
+  .header-nav {
+    border          : none;
+    width           : 100%;
+    padding         : 0;
+    position        : absolute;
+    top             : 100%;
+    ul {
+      margin: 0;
+    }
+    li {
+      display    : block;
+      margin-left: 0;
+      text-align : center;
+      &:hover {
+        background-color: #bbb
+        a { color: black; }
+      }
+      a {
+        color      : white;
+        display    : block;
+      }
+    }
+  }
+}

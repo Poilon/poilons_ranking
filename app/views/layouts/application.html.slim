@@ -9,12 +9,11 @@ html
     = csrf_meta_tags
 
 body
-  .header-site
-    - if notice
-      p class='notice'
-        = notice
-    - if alert
-      p class='alert'
-        = alert
+  - if notice
+    p class='notice'
+      = notice
+  - if alert
+    p class='alert'
+      = alert
   = yield
 = render partial: 'layouts/analytics_footer'

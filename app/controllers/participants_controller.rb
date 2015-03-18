@@ -7,25 +7,26 @@ class ParticipantsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        if params[:team].present?
-          @participants = get_participants_regarding_team
-        elsif params[:character].present?
-          @participants = get_participants_regarding_character
-        elsif params[:country].present?
-          @participants = get_participants_regarding_location
-        end
-        if @participants.blank?
-          json_participants = Rails.cache.fetch("#{@game.id}_participants") do
-            @participants = @game.participants
-            get_json_for_angular
-          end
-        else
-          json_participants = get_json_for_angular
-        end
+        @participants = @game.participants.filter_by_params(params)
+        json_participants = get_json_for_angular
         render json: json_participants
       end
     end
   end
+
+  def top100
+    @game = Game.find(params[:game_id])
+    respond_to do |format|
+      format.html
+      format.json do
+        @participants = @game.participants.filter_by_params(params)
+        json_participants = get_json_for_angular
+
+        render json: json_participants
+      end
+    end
+  end
+
 
   def edit
     @participant = Participant.find(params[:id])
@@ -49,13 +50,14 @@ class ParticipantsController < ApplicationController
     @participant.wiki     = permitted_params[:participant][:wiki]
     add_characters_to_participant
     add_teams_to_participant
+    @participant.characters_index = permitted_params[:participant][:character_names].split("\n").map(&:strip).join(',')
+    @participant.teams_index = @participant.teams.map{ |c| c.slug }.join(',')
     if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
       @participant.name = permitted_params[:participant][:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     
     if !@participant.persisted? || @participant.save 
-      Rails.cache.delete("#{@game.id}_participants")
       redirect_to [@game, @participant]
     else
       render :edit
@@ -85,63 +87,27 @@ class ParticipantsController < ApplicationController
   end
 
   def get_json_for_angular
-    rank_method = get_rank_method
     game_slug = @game.slug
     character_name = params[:character]
-    rank = 1
-    global_rank = 1
     character_img_matcher = {}
-    team_img_matcher = {}
     @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
+    global_rank = 1
+    rank = 1
     @participants.order(score: :desc, name: :asc).map do |participant|
       rank = global_rank if @old_score && @old_score > participant.score
       global_rank += 1
       @old_score = participant.score
-      participant_json = {}
-      participant_json['rank'] = rank
-      participant_json['game_slug'] = game_slug
-      %w(country name slug country_code).each do |attribute|
-        participant_json[attribute] = participant.send(attribute.to_sym)
+      participant_json = participant.attributes.merge(rank: rank)
+      participant.characters_index.split(',').each_with_index do |cp, i|
+        participant_json["character#{i + 1}_slug"] = cp
+        participant_json["character#{i + 1}_img"] = character_img_matcher[cp]
       end
-      participant.character_participants.each do |cp|
-        participant_json["character#{cp.rank}_slug"] = cp.character.slug
-        participant_json["character#{cp.rank}_img"] = character_img_matcher[cp.character.slug]
-      end
-      participant.teams.each_with_index do |team, i|
-        participant_json["team#{i + 1}_slug"] = team.slug
-        participant_json["team#{i + 1}_name"] = team.name
+      participant.teams_index.split(',').each_with_index do |team, i|
+        participant_json["team#{i + 1}_slug"] = team.split(';').first
+        participant_json["team#{i + 1}_name"] = team.split(';').last
       end
       participant_json
-    end unless @participants.blank?
-  end
-
-
-  def get_participants_regarding_location
-    return @game.participants.where(country: CountryCodesList.europe) if params[:country] == 'Europe'
-    country = params[:country]
-    state = params[:state]
-    sub_state = params[:sub_state]
-    city = params[:city]
-    participants = @game.participants
-    participants = participants.where(country:   country)   if country
-    participants = participants.where(state:     state)     if state
-    participants = participants.where(sub_state: sub_state) if sub_state
-    participants = participants.where(city:      city)      if city
-    participants
-  end
-
-  def get_participants_regarding_character
-    character = @game.characters.find_by_slug(params[:character])
-    if character && params[:main]
-      character.participants.joins(:character_participants).where('character_participants.rank = 1').uniq
-    else
-      character ? character.participants : nil
     end
-  end
-
-  def get_participants_regarding_team
-    team = @game.teams.find_by_slug(params[:team])
-    team ? team.participants : nil
   end
 
   def permitted_params

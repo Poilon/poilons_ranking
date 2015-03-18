@@ -3,17 +3,21 @@
 }
 
 /* Color helpers */
-.white { color: white; }
-.black { color: black; }
-
 .italic   { font-style: italic; }
 .v-middle { vertical-align: middle; }
 .v-top    { vertical-align: top; }
+.v-bottom    { vertical-align: bottom; }
 
 .clear     { clear: both; }
 
 .bordered--top { border-top: 1px solid $border_blue};
 
 .hidden { display: none;}
+.full-size {width: 100%;}
 
-.bg_gray {background-color: #555}
+.hint{
+  margin-top: -22px;
+  display: block;
+  margin-bottom: 22px;
+  font-size: 12px;
+}

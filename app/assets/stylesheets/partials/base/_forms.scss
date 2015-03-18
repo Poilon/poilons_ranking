@@ -1,17 +1,14 @@
 input, textarea {
   margin-left  : 0;
   cursor       : text;
-  border       : 10;
   padding      : 0.5em;
   box-shadow   : none;
-  width: 100%;
+  width        : 100%;
   @extend .push--bottom;
 }
 
-.rounded-input {
-  border-radius: 50px;
-  border: 1px solid #CFCACA;
-  width: 350px;
+input[type=checkbox] {
+  width: 20px;
 }
 
 .new_user {
@@ -57,35 +54,33 @@ textarea {
 
 .btn {
   margin-bottom   : 0;
-  background-color: $calendar_day_font_color;
+  background-color: $my_blue;
   color           : $body_white;
-  border          : 1px solid darken($calendar_day_font_color, 5%);
-  @media only screen and (min-width: 1024px) {
-    padding         : 0.5em 1.5em;
-  }
-  @media only screen and (max-width: 1024px) {
-    padding         : 0.2em 0.5em;
-  }
+  padding         : 0em 1.5em;
+  height          : inherit;
   &:hover {
-    background-color: lighten($green, 5%);;
+    background-color: lighten($my_blue, 5%);;
     cursor: pointer;
-  }
-}
-
-.btn--subscribe {
-  background-color: $calendar_day_font_color;
-  &:hover {
-    background-color: lighten($calendar_day_font_color, 2%);;
   }
 }
 
 .btn--small {
   padding: 0.2em 0.2em;
   line-height: 20px;
+  border: 0;
+}
+
+.color--red {
+  background-color: $alert_error;
+  border: 0;
 }
 
 input[type=submit] {
-  @extend .btn
+  @extend .btn;
+}
+
+.boolean label {
+  display: inline-block;
 }
 
 .checkbox {
@@ -95,5 +90,12 @@ input[type=submit] {
   }
   input {
     width: 10px;
+  }
+}
+
+.soft-form {
+  @media only screen and (min-width: $palm-end) {
+    padding-top:   $base-spacing-unit!important;
+    padding-bottom:$base-spacing-unit!important;
   }
 }

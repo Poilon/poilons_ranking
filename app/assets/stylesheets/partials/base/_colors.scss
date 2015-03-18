@@ -1,0 +1,32 @@
+.background--white{
+  background-color: white;
+}
+
+.color--grey{
+  color: grey;
+}
+
+.color--black {
+  color: black;
+}
+
+.grayscale {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.transparent {
+  opacity: 0.2;
+}
+
+.round {
+  border-radius: 100px;
+}
+
+.color--blue {
+  color: $my_blue;
+}
+
+.color--white {
+  color: white;
+}

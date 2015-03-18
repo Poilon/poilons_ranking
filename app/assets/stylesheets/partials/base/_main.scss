@@ -5,23 +5,44 @@ html {
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  height: 100%;
   margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-.heavy-font{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+main {
+  flex: 1 0 auto;
 }
 
-.super-heavy-font{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+img {
+  vertical-align: middle;
+}
+
+b, strong {
+  font-weight: 500 !important;
+}
+
+.background--blue {
+  background-color: #95DDEF;
+}
+
+.background--light-grey {
+  background-color: $light_grey;
+}
+
+.background--dark {
+  background-color: black;
 }
 
 .unsoft {
   margin-left: -22px;
   margin-right: -22px;
+}
+
+.negative-margin {
+  margin-top: -100px;
+  position: relative;
 }
 
 .centered-box {
@@ -36,14 +57,4 @@ body {
   margin-left: auto;
   margin-right: auto;
   text-align: justify;
-}
-
-.index-header{
-  width: 100%;
-  height: 7%;
-  background-color: #43403E;
-  a {
-    color: white;
-    text-decoration: none;
-  }
 }
