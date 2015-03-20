@@ -17,12 +17,6 @@ GIT
       rails (>= 3, < 5)
 
 GIT
-  remote: git://github.com/djonasson/world_flags.git
-  revision: 732e7807e7a463113378e62f879f36858af00697
-  specs:
-    world_flags (0.1.0)
-
-GIT
   remote: git://github.com/gregbell/active_admin.git
   revision: 607054214d4eaba5b59e2eab736c6a41edfc7795
   specs:
@@ -624,4 +618,3 @@ DEPENDENCIES
   turbolinks
   twitter
   uglifier
-  world_flags!

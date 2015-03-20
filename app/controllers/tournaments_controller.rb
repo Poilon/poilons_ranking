@@ -1,4 +1,4 @@
-class TournamentsController < ActionController::Base
+class TournamentsController < ApplicationController
   before_filter :authenticate_admin!, only: [:edit, :update]
 
   def index
@@ -19,7 +19,6 @@ class TournamentsController < ActionController::Base
   def create
     @game = Game.find(params[:game_id])
     challonge_import if permitted_params[:api_key].present? && permitted_params[:user_name].present?
-    Rails.cache.delete("#{@game.id}_participants")
     if params[:raw]
       raw_import
     else
@@ -66,7 +65,6 @@ class TournamentsController < ActionController::Base
         old_participants.map(&:compute_score)
       end
       Participant.clean
-      Rails.cache.delete("#{game.id}_participants")
       redirect_to [game, tournament]
     else
       render :edit

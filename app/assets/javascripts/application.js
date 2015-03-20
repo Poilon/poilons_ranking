@@ -40,7 +40,7 @@
 //= require home
 //= require turbolinks
 //= require_tree .
-//= require participants
 //= require tournaments
+//= require participants
 //= require results
 //= require google_places

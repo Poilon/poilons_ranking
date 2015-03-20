@@ -8,12 +8,12 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
-body
-  - if notice
-    p class='notice'
-      = notice
-  - if alert
-    p class='alert'
-      = alert
-  = yield
+  body
+    - if notice
+      p class='notice'
+        = notice
+    - if alert
+      p class='alert'
+        = alert
+    = yield
 = render partial: 'layouts/analytics_footer'

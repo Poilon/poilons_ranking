@@ -131,8 +131,6 @@ gem 'gmaps-autocomplete-rails'
 gem 'oj'
 gem 'oj_mimic_json'
 
-gem 'world_flags', git: 'git://github.com/djonasson/world_flags.git'
-
 # Translations
 gem 'globalize'
 gem 'http_accept_language'

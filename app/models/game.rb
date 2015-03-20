@@ -17,6 +17,5 @@ class Game < ActiveRecord::Base
   def compute
     Participant.clean
     participants.map(&:compute_score)
-    Rails.cache.delete("#{@game.id}_participants")
   end
 end

@@ -9,11 +9,6 @@
         = link_to 'Add a tournament', [:new, @game, :tournament]
       .form-search.form-inline
         %input{type: "text", "ng-model" => "search.$", class: 'search-query', placeholder: "Search for a tournament here...".html_safe}
-          %button{:"ng-disabled"=>"currentPage == 0", :"ng-click"=>"currentPage = currentPage - 1"}
-            Previous
-          {{ currentPage + 1 }}/{{ numberOfPages() }}
-          %button{:"ng-disabled"=> "currentPage >= filteredTournaments().length/pageSize - 1", :"ng-click"=>"currentPage = currentPage + 1"}
-            Next
       .grid{:'ng-repeat' => 'tournament in filteredTournaments() | startFrom:currentPage*pageSize | limitTo:pageSize'}
         .grid__item.three-quarters.text--left>
           %a{:"ng-href" => "/games/{{tournament.game_slug}}/tournaments/{{tournament.slug}}"}
@@ -21,3 +16,8 @@
         .grid__item.one-quarter.text--left>
           %a{:"ng-href" => "/games/{{tournament.game_slug}}/tournaments/{{tournament.slug}}"}
             {{ tournament.multiplier }}
+      %button{:"ng-disabled"=>"currentPage == 0", :"ng-click"=>"currentPage = currentPage - 1"}
+        Previous
+      {{ currentPage + 1 }}/{{ numberOfPages() }}
+      %button{:"ng-disabled"=> "currentPage >= filteredTournaments().length/pageSize - 1", :"ng-click"=>"currentPage = currentPage + 1"}
+        Next

@@ -14,20 +14,6 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def top100
-    @game = Game.find(params[:game_id])
-    respond_to do |format|
-      format.html
-      format.json do
-        @participants = @game.participants.filter_by_params(params)
-        json_participants = get_json_for_angular
-
-        render json: json_participants
-      end
-    end
-  end
-
-
   def edit
     @participant = Participant.find(params[:id])
     @results = @participant.results
@@ -106,6 +92,8 @@ class ParticipantsController < ApplicationController
         participant_json["team#{i + 1}_slug"] = team.split(';').first
         participant_json["team#{i + 1}_name"] = team.split(';').last
       end
+      participant_json['country_code'] = CountryCodesList.mapping(participant.country)
+      participant_json['game_slug'] = game_slug
       participant_json
     end
   end
