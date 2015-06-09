@@ -10,10 +10,10 @@ html
 
   body
     - if notice
-      p class='notice'
+      .notice
         = notice
     - if alert
-      p class='alert'
+      .alert
         = alert
     = yield
 = render partial: 'layouts/analytics_footer'

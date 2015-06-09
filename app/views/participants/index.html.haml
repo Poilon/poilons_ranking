@@ -21,7 +21,7 @@
             %a{:'ng-if' => 'participant.country_code', :'ng-href' => '/games/{{participant.game_slug}}/participants?country={{participant.country}}', class: 'flag {{participant.country_code}}', style: 'padding-top:0px;'}
               &nbsp&nbsp&nbsp
             %icon{:'ng-if' => 'participant.country_code == null'}
-              = image_tag('flag_none2.png')
+              = image_tag('flag_none2.png', style: 'padding-bottom: 7px;')
 
             &nbsp
 

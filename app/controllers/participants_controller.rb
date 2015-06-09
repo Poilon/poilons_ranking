@@ -74,7 +74,6 @@ class ParticipantsController < ApplicationController
 
   def get_json_for_angular
     game_slug = @game.slug
-    character_name = params[:character]
     character_img_matcher = {}
     @game.characters.each { |c| character_img_matcher[c.slug] = ActionController::Base.helpers.asset_path("#{game_slug}/#{c.slug}.png")}
     global_rank = 1
@@ -87,11 +86,11 @@ class ParticipantsController < ApplicationController
       participant.characters_index.split(',').each_with_index do |cp, i|
         participant_json["character#{i + 1}_slug"] = cp
         participant_json["character#{i + 1}_img"] = character_img_matcher[cp]
-      end
+      end if participant.characters_index
       participant.teams_index.split(',').each_with_index do |team, i|
         participant_json["team#{i + 1}_slug"] = team.split(';').first
         participant_json["team#{i + 1}_name"] = team.split(';').last
-      end
+      end if participant.teams_index
       participant_json['country_code'] = CountryCodesList.mapping(participant.country)
       participant_json['game_slug'] = game_slug
       participant_json

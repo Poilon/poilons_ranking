@@ -34,12 +34,6 @@ ActiveRecord::Schema.define(version: 20150317180340) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-  create_table "alternate_nicknames", force: :cascade do |t|
-    t.integer "participant_id"
-    t.string  "name",           limit: 255
-    t.integer "game_id"
-  end
-
   create_table "character_participants", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "character_id"
