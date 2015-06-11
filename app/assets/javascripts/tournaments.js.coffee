@@ -11,7 +11,7 @@ app.controller 'TournamentsController', ($scope, Tournaments) ->
     $:""
   $scope.filteredTournaments = ->
     _.filter $scope.tournaments, (tournament) ->
-      tournament.name.match($scope.search.$)
+      tournament.name.toLowerCase().match($scope.search.$.toLowerCase())
   $scope.numberOfPages = ->
     Math.ceil($scope.filteredTournaments().length/$scope.pageSize)
 

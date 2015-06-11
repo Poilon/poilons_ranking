@@ -1,15 +1,17 @@
+= render 'games/header'
 = render 'tournaments/menu'
+= render 'games/menu'
 .soft
   .max-readable-width
-    .text--center
+    .grid.text--center
       = link_to 'back', [@game, :tournaments]
     = simple_form_for [@game, @tournament] do |f|
-      .grid__item.one-half.text--left
+      .grid__item.text--left.one-half>
         = f.input :name
         = f.input :multiplier, label: 'Tournament size', input_html: { class: 'one_half' }
         = f.input :date, as: :date
         br
         = f.button :submit, input_html: { class: 'text--center'}
-      .grid__item.one-half
+      .grid__item.one-half>
         .soft
           = text_area :raw, :to_s, style: "height: 400px;"

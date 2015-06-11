@@ -1,4 +1,6 @@
+= render 'games/header'
 = render 'tournaments/form_menu'
+= render 'games/menu'
 .soft.max-readable-width.text--center
   = simple_form_for [@game, @tournament] do |f|
     h2.soft--bottom= 'Syncronize With Challonge'

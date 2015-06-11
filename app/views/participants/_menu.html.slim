@@ -1,8 +1,0 @@
-h2.soft.text--center
-  = @participant.name
-.soft
-  .max-readable-width
-    .text--center
-      = link_to 'back', [@game, :participants]
-      br
-      = link_to 'edit', [:edit, @game, @participant] if current_admin
