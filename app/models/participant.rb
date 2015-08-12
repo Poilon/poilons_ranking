@@ -13,8 +13,10 @@ class Participant < ActiveRecord::Base
   after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
   after_validation :reverse_geocode
   after_validation :update_indexes
+
   has_many :character_participants, dependent: :destroy
   has_many :characters, through: :character_participants
+
   has_many :team_participants, dependent: :destroy
   has_many :teams, through: :team_participants
 
@@ -179,7 +181,7 @@ class Participant < ActiveRecord::Base
   end
 
   def update_indexes
-    self.update_attribute(:characters_index, self.characters.map{ |c| c.slug }.join(','))
+    self.update_attribute(:characters_index, self.character_names.gsub("\n", ','))
     self.update_attribute(:teams_index, self.teams.map{ |c| c.slug + ';' + c.name }.join(','))
   end
 end

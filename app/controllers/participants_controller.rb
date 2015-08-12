@@ -18,7 +18,6 @@ class ParticipantsController < ApplicationController
     @participant = Participant.find(params[:id])
     @results = @participant.results
     @game = Game.find(params[:game_id])
-    @game.participants.order(score: :desc).group_by(&:score)
   end
 
   def show
@@ -29,20 +28,17 @@ class ParticipantsController < ApplicationController
 
   def update
     @game = Game.find(params[:game_id])
-    @participant          = Participant.find(params[:id])
-    @participant.location = permitted_params[:participant][:location]
-    @participant.twitter  = permitted_params[:participant][:twitter]
-    @participant.youtube  = permitted_params[:participant][:youtube]
-    @participant.wiki     = permitted_params[:participant][:wiki]
+    @participant = Participant.find(params[:id])
+    @attributes = permitted_params[:participant]
     add_characters_to_participant
     add_teams_to_participant
-    @participant.characters_index = permitted_params[:participant][:character_names].split("\n").map(&:strip).join(',')
-    @participant.teams_index = @participant.teams.map{ |c| c.slug }.join(',')
-    if permitted_params[:participant][:name].present? && @participant.name != permitted_params[:participant][:name]
-      @participant.name = permitted_params[:participant][:name]
+
+    if @attributes[:name].present? && @participant.name != @attributes[:name]
+      @participant.name = @attributes[:name]
       @participant.merge_process if Participant.find_by_name(@participant.name)
     end
     
+    @participant.attributes = @attributes
     if !@participant.persisted? || @participant.save 
       redirect_to [@game, @participant]
     else
@@ -54,9 +50,9 @@ class ParticipantsController < ApplicationController
 
   def add_teams_to_participant
     @participant.teams = []
-    permitted_params[:participant][:team_names].split("\n").map(&:strip).each do |name|
+    @attributes.delete(:team_names).split("\n").map(&:strip).each do |name|
       unless team = Team.where(game_id: @game.id).find_by_slug(name.parameterize)
-        team = Team.create(game_id: @game.id, name: name)
+        team = Team.create(game_id: @game.id, name: name)        
       end
       @participant.teams << team
     end
@@ -65,8 +61,8 @@ class ParticipantsController < ApplicationController
   def add_characters_to_participant
     @participant.characters = []
     rank = 1
-    permitted_params[:participant][:character_names].split("\n").map(&:strip).each do |name|
-      char = Character.where(game_id: @game.id).find_by_slug(name.downcase)
+    @attributes.delete(:character_names).split("\n").map(&:strip).each do |name|
+      char = Character.where(game_id: @game.id).find_by_slug(name.parameterize)
       CharacterParticipant.create(rank: rank, participant_id: @participant.id, character_id: char.id) unless char.blank?
       rank += 1
     end

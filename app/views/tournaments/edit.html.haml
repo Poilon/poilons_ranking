@@ -9,9 +9,9 @@
       .grid__item.text--left.one-half>
         = f.input :name
         = f.input :multiplier, label: 'Tournament size', input_html: { class: 'one_half' }
-        = f.input :date, as: :date
-        br
+        = f.input :date, as: :string, input_html: { class: 'datepicker' }
+        %br
         = f.button :submit, input_html: { class: 'text--center'}
-      .grid__item.one-half>
+      .grid__item.one-half
         .soft
           = text_area :raw, :to_s, style: "height: 400px;"
